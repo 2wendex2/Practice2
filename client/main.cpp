@@ -1,43 +1,10 @@
-#include <iostream>
-#include <asio.hpp>
-#include <vector>
-
-using asio::ip::tcp;
+#include "control.hpp"
+#include "graphics.hpp"
 
 int main() {
-	try {
-		asio::io_context io_context;
-		asio::steady_timer t(io_context, asio::chrono::seconds(5));
-		tcp::resolver resolver(io_context);
-		tcp::resolver::results_type endpoints =
-			resolver.resolve("127.0.0.1", "daytime");
-		tcp::socket socket(io_context);
-		asio::connect(socket, endpoints);
-		int iter = 0;
-		for (;;) {
-			if (iter == 101) {
-				break;
-			}
-			iter++;
-			//std::cout << "g";
-			//asio::streambuf read_buffer;
-			//asio::error_code error;
-
-			//if (error == asio::error::eof)
-				//break; // Connection closed cleanly by peer.
-			//else if (error)
-				//throw asio::system_error(error); // Some other error.
-
-			if (iter % 25 == 0) {
-				std::string message = "ALO\n";
-				asio::error_code ignored_error;
-				asio::write(socket, asio::buffer(message), ignored_error);
-				t.wait();
-			}	
-		}
-	} catch (std::exception& e) {
-		std::cerr << e.what() << std::endl;
-	}
-	std::cout << "Ger Nick";
+	Control::init(800, 600, u8"Игра Умара", 0);
+	Graphics::changeBackgroundColor(0.f, 1.f, 0.f);
+	Control::mainCycle();
+	Control::destroy();
 	return 0;
 }

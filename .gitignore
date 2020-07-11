@@ -1,1 +1,8 @@
-vs2019/.vs/
+/vs2019/*
+!/vs2019/vs2019.sln
+!/vs2019/client
+!/vs2019/server
+/vs2019/client/*
+/vs2019/server/*
+!/vs2019/client/client.vcxproj
+!/vs2019/server/server.vcxproj

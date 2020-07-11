@@ -18,6 +18,18 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\client\control.cpp" />
+    <ClCompile Include="..\..\client\graphics.cpp" />
+    <ClCompile Include="..\..\client\main.cpp" />
+    <ClCompile Include="..\..\client\spritepool.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\client\control.hpp" />
+    <ClInclude Include="..\..\client\controlstate.hpp" />
+    <ClInclude Include="..\..\client\graphics.hpp" />
+    <ClInclude Include="..\..\client\spritepool.hpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{9075426A-22F1-41E7-8633-C6B654B40CE0}</ProjectGuid>
@@ -71,7 +83,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);D:\sdk\asio-1.16.1\include</IncludePath>
+    <IncludePath>D:\sdk\soil\include;D:\sdk\glfw32\include\GLFW;$(VC_IncludePath);$(WindowsSDK_IncludePath);D:\sdk\asio-1.16.1\include</IncludePath>
+    <LibraryPath>D:\sdk\soil\lib;D:\sdk\glfw32\lib-vc2019;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -93,6 +106,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -139,9 +153,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\client\main.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
