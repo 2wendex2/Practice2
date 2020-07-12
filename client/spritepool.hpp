@@ -1,3 +1,6 @@
+#ifndef _SPRITEPOOL_HPP_
+#define _SPRITEPOOL_HPP_
+
 #include "graphics.hpp"
 
 class Sprite
@@ -16,10 +19,10 @@ public:
 
 class SpritePool
 {
-	static Sprite loadSprite();
-
 public:
 	static Sprite a;
 
 	static void loadAll();
 };
+
+#endif

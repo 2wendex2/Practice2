@@ -1,8 +1,10 @@
 #include "control.hpp"
 #include "graphics.hpp"
+#include "game.hpp"
 
 int main() {
-	Control::init(800, 600, u8"Игра Умара", 0);
+	Game game(0);
+	Control::init(800, 600, u8"Игра Умара", &game);
 	Graphics::changeBackgroundColor(0.f, 1.f, 0.f);
 	Control::mainCycle();
 	Control::destroy();

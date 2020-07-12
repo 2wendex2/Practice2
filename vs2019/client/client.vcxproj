@@ -20,6 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\client\control.cpp" />
+    <ClCompile Include="..\..\client\controlstate.cpp" />
+    <ClCompile Include="..\..\client\game.cpp" />
     <ClCompile Include="..\..\client\graphics.cpp" />
     <ClCompile Include="..\..\client\main.cpp" />
     <ClCompile Include="..\..\client\spritepool.cpp" />
@@ -27,6 +29,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\client\control.hpp" />
     <ClInclude Include="..\..\client\controlstate.hpp" />
+    <ClInclude Include="..\..\client\game.hpp" />
     <ClInclude Include="..\..\client\graphics.hpp" />
     <ClInclude Include="..\..\client\spritepool.hpp" />
   </ItemGroup>
