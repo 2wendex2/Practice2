@@ -1,13 +1,14 @@
 #include <iostream>
 #include <asio.hpp>
 #include <vector>
+#include "dialog.hpp"
 
 using asio::ip::tcp;
 
 int main() {
 	try {
 		asio::io_context io_context;
-		asio::steady_timer t(io_context, asio::chrono::seconds(5));
+		asio::steady_timer t(io_context, asio::chrono::seconds(3));
 		tcp::resolver resolver(io_context);
 		tcp::resolver::results_type endpoints =
 			resolver.resolve("127.0.0.1", "daytime");
@@ -16,6 +17,7 @@ int main() {
 		int iter = 0;
 		for (;;) {
 			if (iter == 101) {
+				socket.close();
 				break;
 			}
 			iter++;
@@ -29,9 +31,11 @@ int main() {
 				//throw asio::system_error(error); // Some other error.
 
 			if (iter % 25 == 0) {
-				std::string message = "ALO\n";
-				asio::error_code ignored_error;
-				asio::write(socket, asio::buffer(message), ignored_error);
+				//std::string message = "ALO\n";
+				std::string message = "XUY ";
+				send_message(&socket, message);
+				//asio::error_code ignored_error;
+				//asio::write(socket, asio::buffer(message), ignored_error);
 				t.wait();
 			}	
 		}

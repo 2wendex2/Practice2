@@ -27,6 +27,10 @@ int main() {
 			}
 			//std::cout.write(buf.data(), len);
 
+			if (error == asio::error::eof) {
+				std::cout << "socket eof\n";
+			}
+
 			std::string str(buf.data());
 			if (str != "") {
 				std::cout << time << std::endl;
