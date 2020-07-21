@@ -10,9 +10,7 @@
 
 TextArea::TextArea(ControlState* parent, std::string& s, const std::string& header, unsigned int maxSymbols) : ControlState(parent),
 enteredString(s), header(header), maxSymbols(maxSymbols)
-{
-	Graphics::changeBackgroundColor(0.f, 0.f, 0.f);
-}
+{}
 
 void TextArea::start()
 {
