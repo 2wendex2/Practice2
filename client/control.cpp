@@ -18,6 +18,17 @@ static void errorCallback(int error, const char* description)
 	throw std::runtime_error(s);
 }
 
+static void charCallback(GLFWwindow* window, unsigned int codepoint)
+{
+	controlState->charGet(codepoint);
+}
+
+static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	if (action == GLFW_PRESS || action == GLFW_REPEAT)
+		controlState->keyGet(key);
+}
+
 static void draw()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -43,9 +54,8 @@ void mouseCallback(GLFWwindow* window, int button, int action, int mods)
 	//resize(width, height);
 //}
 
-void Control::init(int width, int height, const char* windowName, ControlState *controlState)
+void Control::init(int width, int height, const char* windowName)
 {
-	::controlState = controlState;
 	screenWidth = width;
 	screenHeight = height;
 
@@ -64,6 +74,8 @@ void Control::init(int width, int height, const char* windowName, ControlState *
 	glEnable(GL_TEXTURE_2D);
 	glClearColor(0.f, 0.f, 0.f, 1.f);
 	glfwSetMouseButtonCallback(window, mouseCallback);
+	glfwSetCharCallback(window, charCallback);
+	glfwSetKeyCallback(window, keyCallback);
 	glfwSwapInterval(1);
 	glMatrixMode(GL_PROJECTION);
 	glOrtho(0, 800, 600, 0, -1, 1);
@@ -75,7 +87,10 @@ void Control::init(int width, int height, const char* windowName, ControlState *
 void Control::changeState(ControlState* newControlState)
 {
 	if (newControlState)
+	{
 		controlState = newControlState;
+		controlState->start();
+	}
 	else
 		glfwSetWindowShouldClose(window, true);
 }

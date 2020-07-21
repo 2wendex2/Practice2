@@ -6,7 +6,7 @@
 class Control
 {
 public:
-	static void init(int width, int height, const char* windowName, ControlState *controlState);
+	static void init(int width, int height, const char* windowName);
 	static void mainCycle();
 	static void destroy();
 	static void changeState(ControlState* controlState);

@@ -10,9 +10,8 @@ void Sprite::load(const char* name)
 	unsigned char* img = SOIL_load_image((IMAGE_PATH + name).c_str(), &w, &h, 0, SOIL_LOAD_RGB);
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, img);
 	SOIL_free_image_data(img);
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -29,7 +28,7 @@ void Sprite::draw(int x, int y)
 	glEnd();
 }
 
-void Sprite::drawPart(int x, int y, float tl, float tt, float tr, float tb)
+void Sprite::drawPart(int x, int y, float tl, float tt, float tr, float tb,float w, float h)
 {
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glBegin(GL_QUADS);
@@ -40,9 +39,9 @@ void Sprite::drawPart(int x, int y, float tl, float tt, float tr, float tb)
 	glEnd();
 }
 
-Sprite SpritePool::a;
+Sprite SpritePool::font;
 
 void SpritePool::loadAll()
 {
-	a.load("a.jpg");
+	font.load("font.png");
 }
