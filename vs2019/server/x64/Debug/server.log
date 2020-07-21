@@ -1,6 +1,24 @@
-﻿  main.cpp
-  Please define _WIN32_WINNT or _WIN32_WINDOWS appropriately. For example:
-  - add -D_WIN32_WINNT=0x0501 to the compiler command line; or
-  - add _WIN32_WINNT=0x0501 to your project's Preprocessor Definitions.
-  Assuming _WIN32_WINNT=0x0501 (i.e. Windows XP target).
-  server.vcxproj -> C:\Users\gleb8\git\Practice2\vs2019\x64\Debug\server.exe
+﻿  Using triplet "x64-windows" from "D:\Downloads\vcpkg-master\vcpkg-master\installed\x64-windows\"
+  main.cpp
+main.obj : error LNK2019: unresolved external symbol bufferevent_socket_new referenced in function "void __cdecl listener_cb(struct evconnlistener *,__int64,struct sockaddr *,int,void *)" (?listener_cb@@YAXPEAUevconnlistener@@_JPEAUsockaddr@@HPEAX@Z)
+main.obj : error LNK2019: unresolved external symbol bufferevent_free referenced in function "void __cdecl conn_eventcb(struct bufferevent *,short,void *)" (?conn_eventcb@@YAXPEAUbufferevent@@FPEAX@Z)
+main.obj : error LNK2019: unresolved external symbol bufferevent_setcb referenced in function "void __cdecl listener_cb(struct evconnlistener *,__int64,struct sockaddr *,int,void *)" (?listener_cb@@YAXPEAUevconnlistener@@_JPEAUsockaddr@@HPEAX@Z)
+main.obj : error LNK2019: unresolved external symbol bufferevent_getfd referenced in function "void __cdecl conn_eventcb(struct bufferevent *,short,void *)" (?conn_eventcb@@YAXPEAUbufferevent@@FPEAX@Z)
+main.obj : error LNK2019: unresolved external symbol bufferevent_get_input referenced in function "void __cdecl conn_readcb(struct bufferevent *,void *)" (?conn_readcb@@YAXPEAUbufferevent@@PEAX@Z)
+main.obj : error LNK2019: unresolved external symbol bufferevent_enable referenced in function "void __cdecl listener_cb(struct evconnlistener *,__int64,struct sockaddr *,int,void *)" (?listener_cb@@YAXPEAUevconnlistener@@_JPEAUsockaddr@@HPEAX@Z)
+main.obj : error LNK2019: unresolved external symbol bufferevent_disable referenced in function "void __cdecl listener_cb(struct evconnlistener *,__int64,struct sockaddr *,int,void *)" (?listener_cb@@YAXPEAUevconnlistener@@_JPEAUsockaddr@@HPEAX@Z)
+main.obj : error LNK2019: unresolved external symbol evbuffer_get_length referenced in function "void __cdecl conn_readcb(struct bufferevent *,void *)" (?conn_readcb@@YAXPEAUbufferevent@@PEAX@Z)
+main.obj : error LNK2019: unresolved external symbol evbuffer_copyout referenced in function "void __cdecl conn_readcb(struct bufferevent *,void *)" (?conn_readcb@@YAXPEAUbufferevent@@PEAX@Z)
+main.obj : error LNK2019: unresolved external symbol evbuffer_drain referenced in function "void __cdecl conn_readcb(struct bufferevent *,void *)" (?conn_readcb@@YAXPEAUbufferevent@@PEAX@Z)
+main.obj : error LNK2019: unresolved external symbol event_base_new referenced in function main
+main.obj : error LNK2019: unresolved external symbol event_base_dispatch referenced in function main
+main.obj : error LNK2019: unresolved external symbol event_base_free referenced in function main
+main.obj : error LNK2019: unresolved external symbol event_base_loopexit referenced in function "void __cdecl signal_cb(__int64,short,void *)" (?signal_cb@@YAX_JFPEAX@Z)
+main.obj : error LNK2019: unresolved external symbol event_base_loopbreak referenced in function "void __cdecl listener_cb(struct evconnlistener *,__int64,struct sockaddr *,int,void *)" (?listener_cb@@YAXPEAUevconnlistener@@_JPEAUsockaddr@@HPEAX@Z)
+main.obj : error LNK2019: unresolved external symbol event_new referenced in function main
+main.obj : error LNK2019: unresolved external symbol event_free referenced in function main
+main.obj : error LNK2019: unresolved external symbol event_add referenced in function main
+main.obj : error LNK2019: unresolved external symbol evconnlistener_new_bind referenced in function main
+main.obj : error LNK2019: unresolved external symbol evconnlistener_free referenced in function main
+C:\Users\gleb8\git\Practice2\vs2019\Dependencies\libevent\lib\event.lib : warning LNK4272: library machine type 'x86' conflicts with target machine type 'x64'
+C:\Users\gleb8\git\Practice2\vs2019\x64\Debug\server.exe : fatal error LNK1120: 20 unresolved externals

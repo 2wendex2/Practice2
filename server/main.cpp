@@ -93,19 +93,16 @@ static void listener_cb(struct evconnlistener* listener, evutil_socket_t fd, str
 }
 
 static void conn_writecb(struct bufferevent* bev, void* user_data) {
-	struct evbuffer* output = bufferevent_get_output(bev);
-	if (evbuffer_get_length(output) == 0) {
-		printf("flushed answer\n");
-		bufferevent_free(bev);
-	}
+	std::cout << "You should not be here\n";
 }
 
 static void conn_eventcb(struct bufferevent* bev, short events, void* user_data) {
+	evutil_socket_t fd = bufferevent_getfd(bev);
 	if (events & BEV_EVENT_EOF) {
-		printf("Connection closed.\n");
+		printf("Connection from socket %d closed.\n", (int)fd);
 	}
 	else if (events & BEV_EVENT_ERROR) {
-		printf("Got an error on the connection\n");
+		printf("Got an error on the connection from socket %d\n", (int)fd);
 	}
 	bufferevent_free(bev);
 }
@@ -120,9 +117,11 @@ static void signal_cb(evutil_socket_t sig, short events, void* user_data) {
 }
 
 static void conn_readcb(struct bufferevent* bev, void* user_data) {
-	std::cout << "got something to read\n";
+	std::cout << "Got something to read\n";
+
 	evutil_socket_t fd = bufferevent_getfd(bev);
 	std::cout << "Socket Descriptor = " << (int)fd << ";\nMessage:";
+
 	struct evbuffer* input = bufferevent_get_input(bev);
 	size_t len = evbuffer_get_length(input);
 
