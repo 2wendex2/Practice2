@@ -1,8 +1,9 @@
 #include "card.hpp"
 
-void Card::pushCord(int x1, int y1, int x2, int y2) {
-	this->x1 = x1;
-	this->y1 = y1;
-	this->x2 = x2;
-	this->y2 = y2;
+
+void Card::PushCoordsCard(int centreX, int centreY, int dist) {
+	this->x1 = centreX - this->r;
+	this->x2 = centreX + this->r;
+	this->y1 = centreY - this->R;
+	this->y2 = centreY + this->R;
 }

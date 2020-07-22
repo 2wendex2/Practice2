@@ -1,6 +1,6 @@
 #include "text.hpp"
 #include "spritepool.hpp"
-#include <glfw3.h>
+#include <GLFW/glfw3.h>
 
 void Text::draw(int x, int y, int w, int h, std::string s, int sze, float r, float g, float b)
 {

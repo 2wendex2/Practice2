@@ -3,7 +3,7 @@
 #include "graphics.hpp"
 #include <iostream>
 #include "text.hpp"
-#include <glfw3.h>
+#include <GLFW/glfw3.h>
 #include "control.hpp"
 
 //24*17 максимум

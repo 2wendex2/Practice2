@@ -18,7 +18,7 @@ public:
 	}
 
 public:
-	void pushCord(int x1, int y1, int x2, int y2);
+	void PushCoordsCard(int centreX, int centreY, int dist);
 };
 
 #endif
