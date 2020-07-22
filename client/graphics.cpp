@@ -1,6 +1,6 @@
 #include "graphics.hpp"
-#include <glfw3.h>
-#include <SOIL.h>
+#include <GLFW/glfw3.h>
+#include <SOIL/SOIL.h>
 
 void Graphics::changeBackgroundColor(float r, float g, float b)
 {

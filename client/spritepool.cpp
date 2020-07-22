@@ -1,6 +1,6 @@
 #include "spritepool.hpp"
-#include <glfw3.h>
-#include <soil.h>
+#include <GLFW/glfw3.h>
+#include <SOIL/SOIL.h>
 #include <string>
 
 static const std::string IMAGE_PATH = "DATA/img/";
