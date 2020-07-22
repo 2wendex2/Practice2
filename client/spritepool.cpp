@@ -40,8 +40,10 @@ void Sprite::drawPart(int x, int y, float tl, float tt, float tr, float tb,float
 }
 
 Sprite SpritePool::font;
+Sprite SpritePool::cerber;
 
 void SpritePool::loadAll()
 {
 	font.load("font.png");
+	cerber.load("cerber.png");
 }

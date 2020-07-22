@@ -19,23 +19,28 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\client\button.cpp" />
     <ClCompile Include="..\..\client\control.cpp" />
     <ClCompile Include="..\..\client\controlstate.cpp" />
     <ClCompile Include="..\..\client\game.cpp" />
     <ClCompile Include="..\..\client\graphics.cpp" />
     <ClCompile Include="..\..\client\main.cpp" />
     <ClCompile Include="..\..\client\menu.cpp" />
+    <ClCompile Include="..\..\client\menubuttons.cpp" />
     <ClCompile Include="..\..\client\settings.cpp" />
     <ClCompile Include="..\..\client\spritepool.cpp" />
     <ClCompile Include="..\..\client\text.cpp" />
     <ClCompile Include="..\..\client\textarea.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\client\button.hpp" />
+    <ClInclude Include="..\..\client\buttonabstract.hpp" />
     <ClInclude Include="..\..\client\control.hpp" />
     <ClInclude Include="..\..\client\controlstate.hpp" />
     <ClInclude Include="..\..\client\game.hpp" />
     <ClInclude Include="..\..\client\graphics.hpp" />
     <ClInclude Include="..\..\client\menu.hpp" />
+    <ClInclude Include="..\..\client\menubuttons.hpp" />
     <ClInclude Include="..\..\client\settings.hpp" />
     <ClInclude Include="..\..\client\spritepool.hpp" />
     <ClInclude Include="..\..\client\text.hpp" />

@@ -12,6 +12,7 @@ public:
 	virtual void update() {};
 	virtual void mousePress(int x, int y) {};
 	virtual void mouseRelease(int x, int y) {};
+	virtual void mouseMove(int x, int y) {};
 	virtual void charGet(unsigned int c) {};
 	virtual void keyGet(int key) {};
 	virtual void start() {};

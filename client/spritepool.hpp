@@ -21,6 +21,7 @@ class SpritePool
 {
 public:
 	static Sprite font;
+	static Sprite cerber;
 
 	static void loadAll();
 };

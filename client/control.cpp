@@ -29,6 +29,21 @@ static void keyCallback(GLFWwindow* window, int key, int scancode, int action, i
 		controlState->keyGet(key);
 }
 
+static void cursorPositionCallback(GLFWwindow* window, double xpos, double ypos)
+{
+	controlState->mouseMove((int)xpos, (int)ypos);
+}
+
+static void cursorEnterCallback(GLFWwindow* window, int entered)
+{
+	if (!entered)
+	{
+		double xd, yd;
+		glfwGetCursorPos(window, &xd, &yd);
+		controlState->mouseMove((int)xd, (int)yd);
+	}
+}
+
 static void draw()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -76,6 +91,8 @@ void Control::init(int width, int height, const char* windowName)
 	glfwSetMouseButtonCallback(window, mouseCallback);
 	glfwSetCharCallback(window, charCallback);
 	glfwSetKeyCallback(window, keyCallback);
+	glfwSetCursorPosCallback(window, cursorPositionCallback);
+	glfwSetCursorEnterCallback(window, cursorEnterCallback);
 	glfwSwapInterval(1);
 	glMatrixMode(GL_PROJECTION);
 	glOrtho(0, 800, 600, 0, -1, 1);
@@ -93,6 +110,11 @@ void Control::changeState(ControlState* newControlState)
 	}
 	else
 		glfwSetWindowShouldClose(window, true);
+}
+
+ControlState* Control::getState()
+{
+	return controlState;
 }
 
 void Control::mainCycle()

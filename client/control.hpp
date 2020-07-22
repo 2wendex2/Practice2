@@ -10,6 +10,7 @@ public:
 	static void mainCycle();
 	static void destroy();
 	static void changeState(ControlState* controlState);
+	static ControlState* getState();
 };
 
 #endif
