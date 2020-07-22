@@ -18,6 +18,32 @@ static void errorCallback(int error, const char* description)
 	throw std::runtime_error(s);
 }
 
+static void charCallback(GLFWwindow* window, unsigned int codepoint)
+{
+	controlState->charGet(codepoint);
+}
+
+static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	if (action == GLFW_PRESS || action == GLFW_REPEAT)
+		controlState->keyGet(key);
+}
+
+static void cursorPositionCallback(GLFWwindow* window, double xpos, double ypos)
+{
+	controlState->mouseMove((int)xpos, (int)ypos);
+}
+
+static void cursorEnterCallback(GLFWwindow* window, int entered)
+{
+	if (!entered)
+	{
+		double xd, yd;
+		glfwGetCursorPos(window, &xd, &yd);
+		controlState->mouseMove((int)xd, (int)yd);
+	}
+}
+
 static void draw()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -43,9 +69,8 @@ void mouseCallback(GLFWwindow* window, int button, int action, int mods)
 	//resize(width, height);
 //}
 
-void Control::init(int width, int height, const char* windowName, ControlState *controlState)
+void Control::init(int width, int height, const char* windowName)
 {
-	::controlState = controlState;
 	screenWidth = width;
 	screenHeight = height;
 
@@ -64,6 +89,10 @@ void Control::init(int width, int height, const char* windowName, ControlState *
 	glEnable(GL_TEXTURE_2D);
 	glClearColor(0.f, 0.f, 0.f, 1.f);
 	glfwSetMouseButtonCallback(window, mouseCallback);
+	glfwSetCharCallback(window, charCallback);
+	glfwSetKeyCallback(window, keyCallback);
+	glfwSetCursorPosCallback(window, cursorPositionCallback);
+	glfwSetCursorEnterCallback(window, cursorEnterCallback);
 	glfwSwapInterval(1);
 	glMatrixMode(GL_PROJECTION);
 	glOrtho(0, 800, 600, 0, -1, 1);
@@ -75,9 +104,17 @@ void Control::init(int width, int height, const char* windowName, ControlState *
 void Control::changeState(ControlState* newControlState)
 {
 	if (newControlState)
+	{
 		controlState = newControlState;
+		controlState->start();
+	}
 	else
 		glfwSetWindowShouldClose(window, true);
+}
+
+ControlState* Control::getState()
+{
+	return controlState;
 }
 
 void Control::mainCycle()

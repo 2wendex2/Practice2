@@ -8,11 +8,14 @@ protected:
 	ControlState(ControlState *parent) : parent(parent) {}
 
 public:
-	virtual void draw() = 0;
-	virtual void update() = 0;
-	virtual void mousePress(int x, int y) = 0;
-	virtual void mouseRelease(int x, int y) = 0;
-	//virtual void charGet(char c) = 0;
+	virtual void draw() {};
+	virtual void update() {};
+	virtual void mousePress(int x, int y) {};
+	virtual void mouseRelease(int x, int y) {};
+	virtual void mouseMove(int x, int y) {};
+	virtual void charGet(unsigned int c) {};
+	virtual void keyGet(int key) {};
+	virtual void start() {};
 	void quit();
 };
 
