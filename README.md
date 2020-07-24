@@ -1,6 +1,6 @@
 # Dependencies
--libevent(server-socket)
--asio(client-socket)
+Server-Socket = libevent
+Client-Socket = winsock
 # Visual Studio Set Up
 -Additional Include Directories = $(PATH_TO_LIBEVENT)libevent\include
 -Additional Library Directories = $(PATH_TO_LIBEVENT)libevent\lib
