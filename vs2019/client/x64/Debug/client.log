@@ -1,7 +1,4 @@
 ﻿  Using triplet "x64-windows" from "D:\Downloads\vcpkg-master\vcpkg-master\installed\x64-windows\"
   main.cpp
-  Please define _WIN32_WINNT or _WIN32_WINDOWS appropriately. For example:
-  - add -D_WIN32_WINNT=0x0501 to the compiler command line; or
-  - add _WIN32_WINNT=0x0501 to your project's Preprocessor Definitions.
-  Assuming _WIN32_WINNT=0x0501 (i.e. Windows XP target).
+C:\Users\gleb8\git\Practice2\client\tcp_client.hpp(143): warning C4715: 'tcp_client::shut': not all control paths return a value
   client.vcxproj -> C:\Users\gleb8\git\Practice2\vs2019\x64\Debug\client.exe

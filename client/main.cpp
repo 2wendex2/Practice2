@@ -1,36 +1,28 @@
 #include <iostream>
-#include <asio.hpp>
-#include <vector>
-#include "dialog.hpp"
+#include "tcp_client.hpp"
 
-using asio::ip::tcp;
 
 int main() {
-	try {
-		asio::io_context io_context;
-		asio::steady_timer t(io_context, asio::chrono::seconds(3));
-		tcp::resolver resolver(io_context);
-		tcp::resolver::results_type endpoints =
-			resolver.resolve("127.0.0.1", "daytime");
-		tcp::socket socket(io_context);
-		asio::connect(socket, endpoints);
-		int iter = 0;
-		for (;;) {
-			if (iter == 101) {
-				socket.close();
-				break;
+	tcp_client* client = new tcp_client("127.0.0.1", "13");
+	if (client->valid()) {
+		for (int i = 1; i < 100; i++) {
+			if (i == 55) {
+				std::cout << i << "=>    ";
+				const char* message = "mint ";
+				client->send_message(message);
+				std::string str = client->recieve_message();
+			} else if (i % 5 == 0){
+				std::cout << i << "=>    ";
+				const char* message = "ALO ";
+				client->send_message(message);
+				std::string str = client->recieve_message();
 			}
-			iter++;
-
-			if (iter % 25 == 0) {
-				std::string message = "ALO ";
-				send_message(&socket, message);
-				t.wait();
-			}	
 		}
-	} catch (std::exception& e) {
-		std::cerr << e.what() << std::endl;
+
+		std::cout << "Finished\n";
+		client->shut();
+	} else {
+		std::cout << "Invalid client\n";
 	}
-	std::cout << "Finished\n";
 	return 0;
 }

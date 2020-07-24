@@ -17,7 +17,8 @@
 #include <event2/event.h>
 
 #include <iostream>
-#include <vector>
+
+static const char MESSAGE[] = "Hello, World!\n";
 
 static const int PORT = 13;
 
@@ -28,7 +29,7 @@ static void conn_eventcb(struct bufferevent*, short, void*);
 static void signal_cb(evutil_socket_t, short, void*);
 
 int main(int argc, char** argv) {
-	std::cout << "START\n";
+	printf("START\n");
 
 	struct event_base* base;
 	struct evconnlistener* listener;
@@ -117,21 +118,26 @@ static void signal_cb(evutil_socket_t sig, short events, void* user_data) {
 }
 
 static void conn_readcb(struct bufferevent* bev, void* user_data) {
-	std::cout << "Got something to read\n";
-
-	evutil_socket_t fd = bufferevent_getfd(bev);
-	std::cout << "Socket Descriptor = " << (int)fd << ";\nMessage:";
+	std::cout << "got something to read\n";
 
 	struct evbuffer* input = bufferevent_get_input(bev);
 	size_t len = evbuffer_get_length(input);
 
+	evutil_socket_t fd = bufferevent_getfd(bev);
+	std::cout << "Socket Descriptor = " << (int)fd << ";\nMessage:";
+
 	char* data;
-	data = (char*)malloc(len);
+	data = (char*)malloc(len + 1);
 	evbuffer_copyout(input, data, len);
 	evbuffer_drain(input, len);
-	for (int i = 0; i < len; i++) {
-		printf("%c", data[i]);
+	data[len] = 0;
+	printf("%s\n", data);
+
+	char* ot = NULL;
+	ot = strstr(data, "mint");
+	if (ot) {
+		printf("String Found\n");
+		bufferevent_write(bev, MESSAGE, strlen(MESSAGE));
 	}
-	printf("\n");
 	free(data);
 }
