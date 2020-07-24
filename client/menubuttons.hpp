@@ -22,16 +22,35 @@ public:
 	CerberButton(int x, int y, int w, int h);
 };
 
+class NewGameButton : public TextButton
+{
+public:
+	void pressing();
+	NewGameButton(int x, int y, int w, int h);
+};
+
 class GameButton : public TextButton
 {
 public:
 	void pressing();
-	GameButton(int x, int y, int w, int h, std::string s);
+	void prev();
+	void next();
+	std::string& getStr();
+	GameButton(int x, int y, int w, int h);
 };
 
-class GamesWindow : public Button
+class NextButton : public TextButton
 {
+public:
+	void pressing();
+	NextButton(int x, int y, int w, int h);
+};
 
+class PrevButton : public TextButton
+{
+public:
+	void pressing();
+	PrevButton(int x, int y, int w, int h);
 };
 
 #endif

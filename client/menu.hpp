@@ -11,11 +11,18 @@ class Menu : public ControlState
 {
 	ControlState* newState;
 	CerberButton cb;
-	GameButton gb;
+	NewGameButton ngb;
+	NextButton nextButton;
+	PrevButton prevButton;
+	int beg;
+	std::vector<GameButton> gb;
+	static const int MAX_COUNT = 30;
 	
 public:
+	void next();
+	void prev();
 	void changeServer();
-	//void newGame();
+	void newGame();
 	void gameStart(std::string s);
 	void draw();
 	void start();

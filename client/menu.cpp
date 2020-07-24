@@ -4,9 +4,12 @@
 #include "control.hpp"
 #include "graphics.hpp"
 #include "game.hpp"
+#include "text.hpp"
+#include <iostream>
 
-Menu::Menu(ControlState *parent) : ControlState(parent), newState(0), cb(16, 600 - 32, 256 - 32, 16), gb(16, 100, 256 -32, 16,
-	"PINGAS") {}
+Menu::Menu(ControlState *parent) : ControlState(parent), newState(0), cb(16, 600 - 32, 256 - 32, 16), ngb(256, 600 -32, 
+	256 - 64, 16), beg(0), prevButton(532, 600 - 32, 64, 16), nextButton(700, 600 - 32, 64, 16) {
+}
 
 void Menu::changeServer()
 {
@@ -34,26 +37,74 @@ void Menu::start()
 	}
 }
 
+void Menu::newGame()
+{
+	GameButton gameButton(16, (gb.size() - beg) * 16 + 48, 800 - 32, 16);
+	gb.push_back(gameButton);
+	newState = new TextArea(this, gb[gb.size() -1].getStr(), "Enter game name", 24 * 2);
+	Control::changeState(newState);
+}
+
 void Menu::draw()
 {
 	cb.draw();
-	gb.draw();
+	ngb.draw();
+	for (int i = beg; i < gb.size() && i < beg + MAX_COUNT; i++)
+		gb[i].draw();
+	if (beg > 0)
+		prevButton.draw();
+	if (beg + MAX_COUNT < gb.size())
+		nextButton.draw();
+	Text::draw(400,600 - 48, 800, 16, settings.host, 16, 1.f, 1.f, 0.f);
+	Text::draw(400, 16, 800, 32, "Select game", 32, 0.f, 0.7f, 1.f);
 }
 
 void Menu::mouseMove(int x, int y)
 {
 	cb.move(x, y);
-	gb.move(x, y);
+	ngb.move(x, y);
+	for (int i = beg; i < gb.size() && i < beg + MAX_COUNT; i++)
+		gb[i].move(x, y);
+	if (beg > 0)
+		prevButton.move(x, y);
+	if (beg + MAX_COUNT < gb.size())
+		nextButton.move(x, y);
 }
 
 void Menu::mousePress(int x, int y)
 {
 	cb.press(x, y);
-	gb.press(x, y);
+	ngb.press(x, y);
+	for (int i = beg; i < gb.size() && i < beg + MAX_COUNT; i++)
+		gb[i].press(x, y);
+	if (beg > 0)
+		prevButton.press(x, y);
+	if (beg + MAX_COUNT < gb.size())
+		nextButton.press(x, y);
 }
 
 void Menu::mouseRelease(int x, int y)
 {
 	cb.release(x, y);
-	gb.release(x, y);
+	ngb.release(x, y);
+	for (int i = beg; i < gb.size() && i < beg + MAX_COUNT; i++)
+		gb[i].release(x, y);
+	if (beg > 0)
+		prevButton.release(x, y);
+	if (beg + MAX_COUNT < gb.size())
+		nextButton.release(x, y);
+}
+
+void Menu::prev()
+{
+	beg--;
+	for (int i = 0; i < gb.size(); i++)
+		gb[i].prev();
+}
+
+void Menu::next()
+{
+	beg++;
+	for (int i = 0; i < gb.size(); i++)
+		gb[i].next();
 }

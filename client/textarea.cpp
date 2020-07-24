@@ -37,8 +37,6 @@ void TextArea::keyGet(int key)
 		if (enteredString.length() > 0)
 			enteredString.pop_back();
 		break;
-	case GLFW_KEY_ESCAPE:
-		enteredString.clear();
 	case GLFW_KEY_ENTER:
 		Control::changeState(parent);
 		break;
