@@ -43,6 +43,7 @@
     <ClInclude Include="..\..\client\menubuttons.hpp" />
     <ClInclude Include="..\..\client\settings.hpp" />
     <ClInclude Include="..\..\client\spritepool.hpp" />
+    <ClInclude Include="..\..\client\tcp_client.hpp" />
     <ClInclude Include="..\..\client\text.hpp" />
     <ClInclude Include="..\..\client\textarea.hpp" />
   </ItemGroup>

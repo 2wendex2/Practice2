@@ -35,6 +35,30 @@ void Menu::start()
 	{
 		changeServer();
 	}
+	else
+	{
+		std::string ip = "";
+		int i = 0;
+		for (; i < settings.host.length() && settings.host[i] != ':'; i++)
+			ip += settings.host[i];
+		i++;
+		std::string port = "";
+		for (; i < settings.host.length(); i++)
+			port += settings.host[i];
+
+		std::cout << ip << ' ' << port << std::endl;
+
+		tcp_client* client = new tcp_client;
+		settings.client.recreate(ip.c_str(), port.c_str());
+		//client->recreate(ip.c_str(), port.c_str());
+		
+
+		/*settings.client.recreate(ip.c_str(), port.c_str());
+		if (!settings.client.valid())
+			changeServer();
+		else
+			settings.client.send_message("UMAR_GAME CLIENT v.1");*/
+	}
 }
 
 void Menu::newGame()
