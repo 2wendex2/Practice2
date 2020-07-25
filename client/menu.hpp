@@ -14,11 +14,20 @@ class Menu : public ControlState
 	NewGameButton ngb;
 	NextButton nextButton;
 	PrevButton prevButton;
+	std::string lastGame;
 	int beg;
 	std::vector<GameButton> gb;
 	static const int MAX_COUNT = 30;
-	
+	enum State {
+		NONE, SERVER, NEWGAME
+	};
+	State state = SERVER;
+
+
+	void addGame(std::string s);
+	void deleteGame(std::string s);
 public:
+	void update();
 	void next();
 	void prev();
 	void changeServer();
