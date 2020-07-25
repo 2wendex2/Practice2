@@ -15,8 +15,6 @@ public:
 
 private:
 	void initHand(Deck deck);
-public:
-//	void makeCor(int centreX, int centreY, int dist);
 };
 
 #endif

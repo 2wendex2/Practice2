@@ -22,6 +22,7 @@ class SpritePool
 public:
 	static Sprite font;
 	static Sprite cerber;
+	static Sprite cardsTexture[];
 
 	static void loadAll();
 };

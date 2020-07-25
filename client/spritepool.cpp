@@ -1,6 +1,6 @@
 #include "spritepool.hpp"
-#include <GLFW/glfw3.h>
-#include <SOIL/SOIL.h>
+#include <glfw3.h>
+#include <SOIL.h>
 #include <string>
 
 static const std::string IMAGE_PATH = "DATA/img/";
@@ -41,6 +41,7 @@ void Sprite::drawPart(int x, int y, float tl, float tt, float tr, float tb,float
 
 Sprite SpritePool::font;
 Sprite SpritePool::cerber;
+
 
 void SpritePool::loadAll()
 {

@@ -5,6 +5,7 @@ class Card {
 public:
 	std::string element;
 	std::string name;
+	std::string texture;
 	int power;
 	int id;
 	int x1, y1, x2, y2;
@@ -19,6 +20,7 @@ public:
 
 public:
 	void PushCoordsCard(int centreX, int centreY, int dist);
+	std::string pickTexture(Card card);
 };
 
 #endif

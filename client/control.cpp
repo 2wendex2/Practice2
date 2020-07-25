@@ -1,5 +1,5 @@
 #include "control.hpp"
-#include <GLFW/glfw3.h>
+#include <glfw3.h>
 #include <iostream>
 #include <exception>
 #include <string>
