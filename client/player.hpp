@@ -8,13 +8,17 @@ class Player {
 
 public:
 	 std::vector<Card> hand;
-
-	 Player(Deck deck) {
-		 this->initHand(deck);
+	 int score;
+	 Deck deck;
+	 Player() {
+		 this->initHand();
 	 }
 
 private:
-	void initHand(Deck deck);
+	void initHand();
+
+public:
+	int getScore();
 };
 
 #endif

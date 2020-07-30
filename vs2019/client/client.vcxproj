@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\client\battleGround.cpp" />
     <ClCompile Include="..\..\client\button.cpp" />
     <ClCompile Include="..\..\client\card.cpp" />
     <ClCompile Include="..\..\client\control.cpp" />
@@ -37,7 +36,6 @@
     <ClCompile Include="..\..\client\textarea.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\client\battleGround.hpp" />
     <ClInclude Include="..\..\client\button.hpp" />
     <ClInclude Include="..\..\client\buttonabstract.hpp" />
     <ClInclude Include="..\..\client\card.hpp" />

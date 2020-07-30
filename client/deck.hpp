@@ -9,13 +9,16 @@ public:
 	std::vector<Card> cards;
 
 private:
-	void createDeck();
-
-public: 
+	void createDeck(); 
 	void shuffle();
 
-
+public:	    
 	Deck() {
+		createDeck();
+		shuffle();
+		shuffle();
+		shuffle();
+		shuffle();
 		shuffle();
 	}
 };

@@ -5,14 +5,17 @@
 
 class BattleGround {
 public:
-	Player playerOne, playerTwo;
+	Player playerOne;
+	Player playerTwo;
 	int currentPlayerPointer;
+	static int step;
+	static int turn;
 
 private: 
 	void makeСoordinatesCards(int centreX, int centreY, Player playerNumber);
 
 public:
-	void drow();
+	void draw();
 };
 
 
