@@ -17,10 +17,18 @@
 #include <event2/event.h>
 
 #include <iostream>
+#include <vector>
+#include <unordered_map>
+#include "lobby.hpp"
 
-static const char MESSAGE[] = "Hello, World!\n";
+static const char* MESSAGE = "Hello, World!\n";
 
 static const int PORT = 13;
+
+std::vector<Lobby*> pending_lobbies;
+static int list_sockets[100];
+static int list_sock_num = 0;
+std::unordered_map<int, bufferevent*> socket_to_buffer;
 
 static void listener_cb(struct evconnlistener*, evutil_socket_t, struct sockaddr*, int socklen, void*);
 static void conn_writecb(struct bufferevent*, void*);
@@ -29,7 +37,11 @@ static void conn_eventcb(struct bufferevent*, short, void*);
 static void signal_cb(evutil_socket_t, short, void*);
 
 int main(int argc, char** argv) {
-	printf("START\n");
+	std::cout << "START\n";
+
+	for (int i = 0; i < 100; i++) {
+		list_sockets[i] = -1;
+	}
 
 	struct event_base* base;
 	struct evconnlistener* listener;
@@ -88,23 +100,48 @@ static void listener_cb(struct evconnlistener* listener, evutil_socket_t fd, str
 		event_base_loopbreak(base);
 		return;
 	}
+
 	bufferevent_setcb(bev, conn_readcb, conn_writecb, conn_eventcb, NULL);
 	bufferevent_enable(bev, EV_READ);
-	bufferevent_disable(bev, EV_WRITE);
+	bufferevent_enable(bev, EV_WRITE);
+
+	list_sockets[list_sock_num++] = (int)fd;
+	socket_to_buffer.insert(std::make_pair((int)fd, bev));
 }
 
 static void conn_writecb(struct bufferevent* bev, void* user_data) {
-	std::cout << "You should not be here\n";
+	struct evbuffer* output = bufferevent_get_output(bev);
+	//std::cout << "Write callback called with out_len = " << evbuffer_get_length(output) << std::endl;
+	size_t len = evbuffer_get_length(output);
+	if (len) {
+		std::cout << "Something is wrong, len = " << len << std::endl;
+	}
 }
 
 static void conn_eventcb(struct bufferevent* bev, short events, void* user_data) {
 	evutil_socket_t fd = bufferevent_getfd(bev);
+
+	int sock_desc = (int)fd;
+	bool deleted = false;
+	for (int i = 0; i < list_sock_num; i++) {
+		if (list_sockets[i] == sock_desc) {
+			for (int j = i + 1; j < list_sock_num; j++) {
+				list_sockets[j - 1] = list_sockets[j];
+			}
+			list_sockets[--list_sock_num] = -1;
+			deleted = true;
+			break;
+		}
+	}
+	socket_to_buffer.erase(sock_desc);
+
 	if (events & BEV_EVENT_EOF) {
 		printf("Connection from socket %d closed.\n", (int)fd);
 	}
 	else if (events & BEV_EVENT_ERROR) {
 		printf("Got an error on the connection from socket %d\n", (int)fd);
 	}
+	
 	bufferevent_free(bev);
 }
 
@@ -126,18 +163,93 @@ static void conn_readcb(struct bufferevent* bev, void* user_data) {
 	evutil_socket_t fd = bufferevent_getfd(bev);
 	std::cout << "Socket Descriptor = " << (int)fd << ";\nMessage:";
 
-	char* data;
-	data = (char*)malloc(len + 1);
+
+	char* data = new char[len + 1];
 	evbuffer_copyout(input, data, len);
 	evbuffer_drain(input, len);
 	data[len] = 0;
-	printf("%s\n", data);
+	
+	const char* deli = "\n";
+	std::string s(data);
+	std::cout << s << std::endl;
+	std::size_t pos = 0;
 
-	char* ot = NULL;
-	ot = strstr(data, "mint");
-	if (ot) {
-		printf("String Found\n");
-		bufferevent_write(bev, MESSAGE, strlen(MESSAGE));
+
+	while (pos < s.length()) {
+		std::size_t new_pos = s.find(deli, pos);
+		std::string current_command = s.substr(pos, new_pos - pos);
+		pos = new_pos + 1;
+		std::size_t sp = 0;
+		std::string name = "";
+		std::string msg = "";
+
+		switch (current_command[0]) {
+		case 'l':
+			printf("Listing current pending lobbies to the client\n");
+			for (auto lob : pending_lobbies) {
+				std::string reply = "list ";
+				reply += lob->lobby_name;
+				reply += '\n';
+				std::cout << reply;
+				bufferevent_write(bev, reply.data(), strlen(reply.data()));
+			}
+			break;
+		case 'n':
+			sp = current_command.find(' ');
+			name = current_command.substr(sp + 1);
+			std::cout << "creating newgame with name = " << name << ";\n";
+			pending_lobbies.push_back(new Lobby((int)fd, name));
+
+			for (int i = 0; i < list_sock_num; i++) {
+				if (list_sockets[i] == (int)fd) {
+					for (int j = i + 1; j < list_sock_num; j++) {
+						list_sockets[j - 1] = list_sockets[j];
+					}
+					list_sockets[--list_sock_num] = -1;
+					break;
+				}
+			}
+
+			msg += "list ";
+			msg += name;
+			msg += '\n';
+
+			for (int i = 0; i < list_sock_num; i++) {
+				auto mp = socket_to_buffer.find(list_sockets[i]);
+				std::cout << msg << " ++ to socket = " << list_sockets[i] << "; buffer = " << mp->second << ";\n";
+				bufferevent_write(mp->second, msg.data(), strlen(msg.data()));
+				bufferevent_write(bev, MESSAGE, strlen(MESSAGE));
+			}
+			break;
+		case 'g':
+			sp = current_command.find(' ');
+			name = current_command.substr(sp + 1);
+			std::cout << "deleting game with name = " << name << ";\n";
+
+			for (auto el : pending_lobbies) {
+				if (el->lobby_name == name) {
+					std::cout << "found the right lobby\n";
+					if (el->player1_id > 0) {
+						list_sockets[list_sock_num++] = el->player1_id;
+					}
+					if (el->player2_id > 0) {
+						list_sockets[list_sock_num++] = el->player2_id;
+					}
+
+					el->player1_id = pending_lobbies[pending_lobbies.size() - 1]->player1_id;
+					el->player2_id = pending_lobbies[pending_lobbies.size() - 1]->player2_id;
+					el->lobby_name = pending_lobbies[pending_lobbies.size() - 1]->lobby_name;
+					pending_lobbies.pop_back();
+					break;
+				}
+			}
+			break;
+		default:
+			std::cout << "BAD COMMAND\n";
+			break;
+		}
 	}
-	free(data);
+
+	//bufferevent_write(bev, MESSAGE, strlen(MESSAGE));
+	delete[] data;
 }

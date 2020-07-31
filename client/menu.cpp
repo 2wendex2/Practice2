@@ -58,12 +58,13 @@ void Menu::start()
 			if (!settings.client.valid())
 				changeServer();
 			else
-				settings.client.send_message("list");
+				settings.client.send_message("list\n");
 		}
 	else if (state == NEWGAME)
 		{
 			std::string s = "newgame ";
 			s += lastGame;
+			s += '\n';
 			settings.client.send_message(s.c_str());
 		}
 }
