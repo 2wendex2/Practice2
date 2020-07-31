@@ -3,7 +3,7 @@
 #include "textarea.hpp"
 #include "control.hpp"
 #include "graphics.hpp"
-#include "game.hpp"
+#include "gamewaiting.hpp"
 #include "text.hpp"
 #include <iostream>
 #include "../servercmd.hpp"
@@ -21,7 +21,7 @@ void Menu::changeServer()
 
 void Menu::gameStart(std::string s)
 {
-	newState = new Game(this);
+	newState = new GameWaiting(this);
 	Control::changeState(newState);
 }
 
@@ -50,10 +50,6 @@ void Menu::start()
 				port += settings.host[i];
 
 			std::cout << ip << ' ' << port << std::endl;
-
-			tcp_client* client = new tcp_client;
-			settings.client.recreate(ip.c_str(), port.c_str());
-
 			settings.client.recreate(ip.c_str(), port.c_str());
 			if (!settings.client.valid())
 				changeServer();
