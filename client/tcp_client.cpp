@@ -111,7 +111,7 @@ std::string tcp_client::recieve_message() {
 		printf("Bytes received: %d\n", iResult);
 		recvbuf[iResult] = 0;
 		std::string str(recvbuf);
-		std::cout << str << std::endl;
+		std::cout << str;
 		return str;
 	}
 	else {

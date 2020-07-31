@@ -200,6 +200,17 @@ static void conn_readcb(struct bufferevent* bev, void* user_data) {
 			std::cout << "creating newgame with name = " << name << ";\n";
 			pending_lobbies.push_back(new Lobby((int)fd, name));
 
+			msg += "list ";
+			msg += name;
+			msg += '\n';
+
+			for (int i = 0; i < list_sock_num; i++) {
+				auto mp = socket_to_buffer.find(list_sockets[i]);
+				std::cout << msg << " ++ to socket = " << list_sockets[i] << "; buffer = " << mp->second << ";\n";
+				bufferevent_write(mp->second, msg.data(), strlen(msg.data()));
+				//bufferevent_write(bev, MESSAGE, strlen(MESSAGE));
+			}
+
 			for (int i = 0; i < list_sock_num; i++) {
 				if (list_sockets[i] == (int)fd) {
 					for (int j = i + 1; j < list_sock_num; j++) {
@@ -209,19 +220,8 @@ static void conn_readcb(struct bufferevent* bev, void* user_data) {
 					break;
 				}
 			}
-
-			msg += "list ";
-			msg += name;
-			msg += '\n';
-
-			for (int i = 0; i < list_sock_num; i++) {
-				auto mp = socket_to_buffer.find(list_sockets[i]);
-				std::cout << msg << " ++ to socket = " << list_sockets[i] << "; buffer = " << mp->second << ";\n";
-				bufferevent_write(mp->second, msg.data(), strlen(msg.data()));
-				bufferevent_write(bev, MESSAGE, strlen(MESSAGE));
-			}
 			break;
-		case 'g':
+		case 'd':
 			sp = current_command.find(' ');
 			name = current_command.substr(sp + 1);
 			std::cout << "deleting game with name = " << name << ";\n";
@@ -240,6 +240,59 @@ static void conn_readcb(struct bufferevent* bev, void* user_data) {
 					el->player2_id = pending_lobbies[pending_lobbies.size() - 1]->player2_id;
 					el->lobby_name = pending_lobbies[pending_lobbies.size() - 1]->lobby_name;
 					pending_lobbies.pop_back();
+
+					msg += "delete ";
+					msg += name;
+					msg += '\n';
+
+					for (int i = 0; i < list_sock_num; i++) {
+						auto mp = socket_to_buffer.find(list_sockets[i]);
+						std::cout << msg << " ++ to socket = " << list_sockets[i] << "; buffer = " << mp->second << ";\n";
+						bufferevent_write(mp->second, msg.data(), strlen(msg.data()));
+						//bufferevent_write(bev, MESSAGE, strlen(MESSAGE));
+					}
+					break;
+				}
+			}
+
+			break;
+		case 'g':
+			sp = current_command.find(' ');
+			name = current_command.substr(sp + 1);
+			std::cout << "connecting to game with name = " << name << ";\n";
+
+			for (auto el : pending_lobbies) {
+				if (el->lobby_name == name) {
+					std::string start_msg = "start\n";
+					std::cout << "found the right lobby\n";
+					el->player2_id = (int)fd;
+
+					for (int i = 0; i < list_sock_num; i++) {
+						if (list_sockets[i] == (int)fd) {
+							for (int j = i + 1; j < list_sock_num; j++) {
+								list_sockets[j - 1] = list_sockets[j];
+							}
+							list_sockets[--list_sock_num] = -1;
+							break;
+						}
+					}
+
+					auto mp1 = socket_to_buffer.find(el->player1_id);
+					//mp2 eto bev
+					bufferevent_write(mp1->second, start_msg.data(), strlen(start_msg.data()));
+					bufferevent_write(bev, start_msg.data(), strlen(start_msg.data()));
+
+					msg += "delete ";
+					msg += name;
+					msg += '\n';
+
+					for (int i = 0; i < list_sock_num; i++) {
+						auto mp = socket_to_buffer.find(list_sockets[i]);
+						std::cout << msg << " ++ to socket = " << list_sockets[i] << "; buffer = " << mp->second << ";\n";
+						bufferevent_write(mp->second, msg.data(), strlen(msg.data()));
+						//bufferevent_write(bev, MESSAGE, strlen(MESSAGE));
+					}
+
 					break;
 				}
 			}

@@ -51,10 +51,8 @@ void Menu::start()
 
 			std::cout << ip << ' ' << port << std::endl;
 
-			tcp_client* client = new tcp_client;
 			settings.client.recreate(ip.c_str(), port.c_str());
 
-			settings.client.recreate(ip.c_str(), port.c_str());
 			if (!settings.client.valid())
 				changeServer();
 			else
