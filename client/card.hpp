@@ -21,7 +21,8 @@ public:
 
 public:
 	void pushCoordsCard(int centreX, int centreY);
-	void draw();
+	void drawMyDeck();
+	void drawYourDeck();
 	void getCard(int x, int y);
 };
 

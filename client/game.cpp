@@ -22,10 +22,10 @@ void Game::draw() {
 	std::string str = std::to_string(playerOne.getScore()) + "-" + std::to_string(playerTwo.getScore());
 	SpritePool::arena.draw(0, 0);
 	for (int i = 0; i < this->playerOne.hand.size(); i++) {
-		this->playerOne.hand[i].draw();
+		this->playerOne.hand[i].drawMyDeck();
 	}
 	for (int i = 0; i < this->playerTwo.hand.size(); i++) {
-		this->playerTwo.hand[i].draw();
+		this->playerTwo.hand[i].drawYourDeck();
 	}
 	Text::draw(760, 280, 800, 80, str, 20, 0.f, 0.7f, 1.f);
 }

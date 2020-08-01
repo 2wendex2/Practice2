@@ -8,8 +8,12 @@ void Card::pushCoordsCard(int centreX, int centreY) {
 	this->y2 = centreY + this->R;
 }
 
-void Card::draw() {
+void Card::drawMyDeck() {
 	SpritePool::cards[this->id].draw(this->x1, this->y1);
+}
+
+void Card::drawYourDeck() {
+	SpritePool::rubashka.draw(this->x1, this->y1);
 }
 
 void Card::getCard(int x, int y) {
