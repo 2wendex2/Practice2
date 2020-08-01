@@ -22,6 +22,7 @@ public:
 	void draw();
 	void mousePress(int x, int y);
 	void charGet(char c);
+	void keyGet(int key);
 	Game(ControlState* parent);
 	void start();
 };

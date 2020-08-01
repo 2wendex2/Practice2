@@ -19,10 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\server\game.cpp" />
     <ClCompile Include="..\..\server\lobby.cpp" />
     <ClCompile Include="..\..\server\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\servercmd.hpp" />
+    <ClInclude Include="..\..\server\game.hpp" />
     <ClInclude Include="..\..\server\lobby.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
