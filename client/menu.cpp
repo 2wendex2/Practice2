@@ -82,7 +82,9 @@ void Menu::start()
 		}
 	else if (state == GAME)
 	{
-		settings.client.send_message("relist");
+		settings.client.send_message("list\n");
+		gb.clear();
+		beg = 0;
 	}
 }
 

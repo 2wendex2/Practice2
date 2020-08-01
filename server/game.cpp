@@ -22,5 +22,6 @@ void Game::msgSwitch(int player1, int player2, std::string s)
 	{
 		gameEnd(player1);
 		gameEnd(player2);
+		writeMesg(player2, "end\n");
 	}
 }
