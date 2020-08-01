@@ -113,7 +113,7 @@ static void listener_cb(struct evconnlistener* listener, evutil_socket_t fd, str
 
 static void conn_writecb(struct bufferevent* bev, void* user_data) {
 	struct evbuffer* output = bufferevent_get_output(bev);
-	std::cout << "KAK TI SUDA POPAL\n";
+	//std::cout << "KAK TI SUDA POPAL\n";
 	size_t len = evbuffer_get_length(output);
 	if (len) {
 		std::cout << "Something is wrong, len = " << len << std::endl;
@@ -176,6 +176,7 @@ static void conn_readcb(struct bufferevent* bev, void* user_data) {
 	std::string s(data);
 	std::cout << s << std::endl;
 	std::size_t pos = 0;
+	auto au_mp = socket_to_buffer.find((int)fd);
 
 	while (pos < s.length()) {
 		std::size_t new_pos = s.find(deli, pos);
@@ -188,6 +189,7 @@ static void conn_readcb(struct bufferevent* bev, void* user_data) {
 
 		switch (current_command[0]) {
 		case 'l':
+			//if (state->second != "LIST") break;
 			printf("Listing current pending lobbies to the client\n");
 			for (auto lob : pending_lobbies) {
 				std::string reply = "list ";
@@ -201,23 +203,12 @@ static void conn_readcb(struct bufferevent* bev, void* user_data) {
 			sp = current_command.find(' ');
 			name = current_command.substr(sp + 1);
 
-			//if (state->second != "LIST") break;
+			if (state->second != "LIST") break;
 			//проверить соответствие state->second
 
 			std::cout << "creating newgame with name = " << name << ";\n";
 			state->second = "LOBBY";
 			pending_lobbies.push_back(new Lobby((int)fd, name));
-
-			msg += "list ";
-			msg += name;
-			msg += '\n';
-
-			for (int i = 0; i < list_sock_num; i++) {
-				auto mp = socket_to_buffer.find(list_sockets[i]);
-				std::cout << msg << " ++ to socket = " << list_sockets[i] << "; buffer = " << mp->second << ";\n";
-				bufferevent_write(mp->second, msg.data(), strlen(msg.data()));
-				//bufferevent_write(bev, MESSAGE, strlen(MESSAGE));
-			}
 
 			for (int i = 0; i < list_sock_num; i++) {
 				if (list_sockets[i] == (int)fd) {
@@ -227,6 +218,22 @@ static void conn_readcb(struct bufferevent* bev, void* user_data) {
 					list_sockets[--list_sock_num] = -1;
 					break;
 				}
+			}
+
+			msg = "newgame ";
+			msg += name;
+			msg += '\n';
+			bufferevent_write(au_mp->second, msg.data(), strlen(msg.data()));
+
+			msg = "list ";
+			msg += name;
+			msg += '\n';
+
+			for (int i = 0; i < list_sock_num; i++) {
+				auto mp = socket_to_buffer.find(list_sockets[i]);
+				std::cout << msg << " ++ to socket = " << list_sockets[i] << "; buffer = " << mp->second << ";\n";
+				bufferevent_write(mp->second, msg.data(), strlen(msg.data()));
+				//bufferevent_write(bev, MESSAGE, strlen(MESSAGE));
 			}
 			break;
 		case 'd':
