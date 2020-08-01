@@ -8,6 +8,7 @@ class GameWaiting : public ControlState
 public:
 	void update();
 	void draw();
+	void keyGet(int key);
 	GameWaiting(ControlState* parent);
 };
 

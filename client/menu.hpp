@@ -19,14 +19,15 @@ class Menu : public ControlState
 	std::vector<GameButton> gb;
 	static const int MAX_COUNT = 30;
 	enum State {
-		NONE, SERVER, NEWGAME
+		NONE, SERVER, NEWGAME, GAME
 	};
 	State state = SERVER;
 
-
 	void addGame(std::string s);
 	void deleteGame(std::string s);
+	void gamegameStart();
 public:
+	void toGame(std::string s);
 	void update();
 	void next();
 	void prev();
@@ -38,6 +39,7 @@ public:
 	void mouseMove(int x, int y);
 	void mousePress(int x, int y);
 	void mouseRelease(int x, int y);
+	void changeState(ControlState* st);
 	Menu(ControlState* parent);
 };
 

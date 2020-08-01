@@ -98,7 +98,7 @@ int tcp_client::send_message(const char* sendbuf) {
 		WSACleanup();
 		return 1;
 	}
-	printf("Bytes Sent: %ld\n", iResult);
+	printf(sendbuf);
 	return 0;
 }
 
@@ -108,10 +108,10 @@ std::string tcp_client::recieve_message() {
 	char recvbuf[128];
 	iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
 	if (iResult >= 0) {
-		printf("Bytes received: %d\n", iResult);
+		//printf("Bytes received: %d\n", iResult);
 		recvbuf[iResult] = 0;
 		std::string str(recvbuf);
-		std::cout << str << std::endl;
+		std::cout << str;
 		return str;
 	}
 	else {

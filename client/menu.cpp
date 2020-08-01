@@ -3,6 +3,7 @@
 #include "textarea.hpp"
 #include "control.hpp"
 #include "graphics.hpp"
+#include "game.hpp"
 #include "gamewaiting.hpp"
 #include "text.hpp"
 #include <iostream>
@@ -23,6 +24,22 @@ void Menu::gameStart(std::string s)
 {
 	newState = new GameWaiting(this);
 	Control::changeState(newState);
+	state = GAME;
+}
+
+void Menu::gamegameStart()
+{
+	newState = new Game(this);
+	Control::changeState(newState);
+	state = GAME;
+}
+
+void Menu::toGame(std::string s)
+{
+	std::string sn = "game ";
+	sn += s;
+	sn += '\n';
+	settings.client.send_message(sn.c_str());
 }
 
 void Menu::start()
@@ -50,7 +67,7 @@ void Menu::start()
 				port += settings.host[i];
 
 			std::cout << ip << ' ' << port << std::endl;
-			settings.client.recreate(ip.c_str(), port.c_str());
+			settings.client.recreate(ip.c_str(), port.c_str()); 
 			if (!settings.client.valid())
 				changeServer();
 			else
@@ -63,6 +80,10 @@ void Menu::start()
 			s += '\n';
 			settings.client.send_message(s.c_str());
 		}
+	else if (state == GAME)
+	{
+		settings.client.send_message("relist");
+	}
 }
 
 void Menu::newGame()
@@ -157,23 +178,46 @@ void Menu::next()
 		gb[i].next();
 }
 
+void Menu::changeState(ControlState* st)
+{
+	if (newState != 0)
+		delete newState;
+	newState = st;
+	Control::changeState(st);
+}
+
 void Menu::update()
 {
-	for (;;)
-	{
-		std::string cmdstring = settings.client.recieve_message();
-		if (cmdstring.size() == 0)
-			break;
+	std::string cmdstring = settings.client.recieve_message();
+	if (cmdstring.size() == 0)
+		return;
 
-		Servercmd cmd(cmdstring);
-		if (cmd[0] == "list" && cmd[1].size() != 0)
-			addGame(cmd[1]);
-		else if (cmd[0] == "relist")
+	Servercmd cmd(cmdstring);
+	for (int c = 0;c < cmd.size(); c++)
+	{
+		if (cmd[c + 0] == "list" && cmd[c + 1].size() != 0)
+		{
+			addGame(cmd[c + 1]);
+			c++;
+		}
+		else if (cmd[c + 0] == "relist")
 		{
 			gb.clear();
 			beg = 0;
 		}
-		else if (cmd[0] == "delete")
-			deleteGame(cmd[1]);
+		else if (cmd[c + 0] == "delete")
+		{
+			deleteGame(cmd[c + 1]);
+			c++;
+		}
+		else if (cmd[c + 0] == "newgame")
+		{
+			gameStart(cmd[c + 1]);
+			break;
+		} else if (cmd[c + 0] == "start")
+		{
+			gamegameStart();
+			break;
+		}
 	}
 }

@@ -34,7 +34,7 @@ std::string& GameButton::getStr()
 
 void GameButton::pressing()
 {
-	((Menu*)Control::getState())->gameStart(str);
+	((Menu*)Control::getState())->toGame(str);
 }
 
 NewGameButton::NewGameButton(int x, int y, int w, int h) : TextButton(x, y, w, h, "New game") {}

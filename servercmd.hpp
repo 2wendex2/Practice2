@@ -6,10 +6,15 @@ class Servercmd
 {
 	std::vector<std::string> v;
 public:
+	int size()
+	{
+		return v.size();
+	}
+
 	Servercmd(const std::string& s)
 	{
 		bool white = true;
-		for (int i = 0; s[i] < s.length(); i++)
+		for (int i = 0; i < s.length(); i++)
 		{
 			if (white)
 			{
@@ -21,7 +26,9 @@ public:
 			}
 			else {
 				if (isspace(s[i]))
+				{
 					white = true;
+				}
 				else
 					v[v.size() - 1] += s[i];
 			}

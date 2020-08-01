@@ -22,6 +22,7 @@
     <ClCompile Include="..\..\client\button.cpp" />
     <ClCompile Include="..\..\client\control.cpp" />
     <ClCompile Include="..\..\client\controlstate.cpp" />
+    <ClCompile Include="..\..\client\game.cpp" />
     <ClCompile Include="..\..\client\gamewaiting.cpp" />
     <ClCompile Include="..\..\client\graphics.cpp" />
     <ClCompile Include="..\..\client\main.cpp" />
@@ -38,6 +39,7 @@
     <ClInclude Include="..\..\client\buttonabstract.hpp" />
     <ClInclude Include="..\..\client\control.hpp" />
     <ClInclude Include="..\..\client\controlstate.hpp" />
+    <ClInclude Include="..\..\client\game.hpp" />
     <ClInclude Include="..\..\client\gamewaiting.hpp" />
     <ClInclude Include="..\..\client\graphics.hpp" />
     <ClInclude Include="..\..\client\menu.hpp" />
