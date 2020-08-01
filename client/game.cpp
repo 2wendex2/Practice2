@@ -5,15 +5,13 @@
 #include <ctime>
 #include <cstdlib>  
 #include <string>
+#include "settings.hpp"
 
 void Game::draw() {
 	std::string str = std::to_string(playerOne.getScore()) + "-" + std::to_string(playerTwo.getScore());
 	SpritePool::arena.draw(0, 0);
 	for (int i = 0; i < this->playerOne.hand.size(); i++) {
 		this->playerOne.hand[i].draw();
-	}
-	for (int i = 0; i < this->table.size(); i++) {
-		this->table[i].draw();
 	}
 	for (int i = 0; i < this->playerTwo.hand.size(); i++) {
 		this->playerTwo.hand[i].draw();
@@ -25,18 +23,22 @@ void Game::update() {}
 
 Game::Game(ControlState* parent) : ControlState(parent) {}
 
-void Game::mousePress(int x, int y) {
-	this->turn = 1;
-	if (Game::turn == 1) {
+void Game::mousePress(int x, int y) {	
+	if (this->turn == 1) {
 		for (int i = 0; i < this->playerOne.hand.size(); i++) {
-			if (this->playerOne.hand[i].x1 <= x && this->playerOne.hand[i].x2 >= x 
+			if (this->playerOne.hand[i].x1 <= x && this->playerOne.hand[i].x2 >= x
 				&& this->playerOne.hand[i].y1 <= y && this->playerOne.hand[i].y2 >= y) {
-				this->table.push_back(this->playerOne.hand[i]);
-				for (int j = 0; j < this->table.size(); j++) {
-					this->table[j].pushCoordsCard(400, 300);
-				}
-				this->playerOne.hand.erase(this->playerOne.hand.begin() + i);
-				break;
+				std::string str = "card " + std::to_string(i);
+				settings.client.send_message(str.c_str());
+			}
+		}
+	}
+	if (this->turn == 2) {
+		for (int i = 0; i < this->playerTwo.hand.size(); i++) {
+			if (this->playerTwo.hand[i].x1 <= x && this->playerTwo.hand[i].x2 >= x
+				&& this->playerTwo.hand[i].y1 <= y && this->playerTwo.hand[i].y2 >= y) {
+				std::string str = "card " + std::to_string(i);
+				settings.client.send_message(str.c_str());
 			}
 		}
 	}
@@ -53,7 +55,6 @@ void Game::makeСoordinatesCards(int centreX, int centreY, Player& playerNumber)
 
 void Game::start() {
 	srand(time(0));
-
 	Game::makeСoordinatesCards(85, 530, this->playerOne);
 	Game::makeСoordinatesCards(85, 75, this->playerTwo);
 	

@@ -10,6 +10,7 @@ private:
 	std::vector<Card> table;
 	Player playerOne;
 	Player playerTwo;
+	std::vector<int> index;
 	int currentPlayerPointer;
 	static int step;
 	int turn;
