@@ -7,6 +7,7 @@
 class Game : public ControlState
 {
 private:
+	std::vector<Card> table;
 	Player playerOne;
 	Player playerTwo;
 	int currentPlayerPointer;

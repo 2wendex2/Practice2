@@ -24,7 +24,8 @@ void Deck::createDeck() {
 }
 
 void Deck::shuffle() {
-	for (int i = 0; i < this->cards.size(); ++i)
+	for (int i = 0; i < this->cards.size(); i++)
 		std::swap(this->cards[i], this->cards[rand() % this->cards.size()]);
 }
+
 

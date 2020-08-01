@@ -19,8 +19,9 @@ public:
 		shuffle();
 		shuffle();
 		shuffle();
-		shuffle();
 	}
+	
+	Card pop(); 
 };
 
 #endif
