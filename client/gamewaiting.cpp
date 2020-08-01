@@ -11,7 +11,7 @@
 
 void GameWaiting::draw()
 {
-	Text::draw(400, 300, 800, 600, "Waiting  for player", 64, 0.f, 0.7f, 1.f);
+	Text::draw(400, 300, 800, 600, "Waiting  forplayer", 64, 0.f, 0.7f, 1.f);
 }
 
 void GameWaiting::keyGet(int key)

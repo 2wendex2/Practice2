@@ -20,14 +20,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\client\button.cpp" />
+    <ClCompile Include="..\..\client\card.cpp" />
     <ClCompile Include="..\..\client\control.cpp" />
     <ClCompile Include="..\..\client\controlstate.cpp" />
+    <ClCompile Include="..\..\client\deck.cpp" />
     <ClCompile Include="..\..\client\game.cpp" />
     <ClCompile Include="..\..\client\gamewaiting.cpp" />
     <ClCompile Include="..\..\client\graphics.cpp" />
     <ClCompile Include="..\..\client\main.cpp" />
     <ClCompile Include="..\..\client\menu.cpp" />
     <ClCompile Include="..\..\client\menubuttons.cpp" />
+    <ClCompile Include="..\..\client\player.cpp" />
     <ClCompile Include="..\..\client\settings.cpp" />
     <ClCompile Include="..\..\client\spritepool.cpp" />
     <ClCompile Include="..\..\client\tcp_client.cpp" />
@@ -37,13 +40,17 @@
   <ItemGroup>
     <ClInclude Include="..\..\client\button.hpp" />
     <ClInclude Include="..\..\client\buttonabstract.hpp" />
+    <ClInclude Include="..\..\client\card.hpp" />
     <ClInclude Include="..\..\client\control.hpp" />
+    <ClInclude Include="..\..\client\controlimpl\controlimpl.hpp" />
     <ClInclude Include="..\..\client\controlstate.hpp" />
+    <ClInclude Include="..\..\client\deck.hpp" />
     <ClInclude Include="..\..\client\game.hpp" />
     <ClInclude Include="..\..\client\gamewaiting.hpp" />
     <ClInclude Include="..\..\client\graphics.hpp" />
     <ClInclude Include="..\..\client\menu.hpp" />
     <ClInclude Include="..\..\client\menubuttons.hpp" />
+    <ClInclude Include="..\..\client\player.hpp" />
     <ClInclude Include="..\..\client\settings.hpp" />
     <ClInclude Include="..\..\client\spritepool.hpp" />
     <ClInclude Include="..\..\client\tcp_client.hpp" />
@@ -109,7 +116,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\Downloads\vcpkg-master\vcpkg-master\packages\asio_x86-windows\include;$(IncludePath)</IncludePath>
+    <IncludePath>D:\uni_study\vcpkg\installed\x64-windows\include\SOIL;D:\uni_study\vcpkg\installed\x64-windows\include\GLFW;D:\Downloads\vcpkg-master\vcpkg-master\packages\asio_x86-windows\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\uni_study\vcpkg\installed\x64-windows\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
