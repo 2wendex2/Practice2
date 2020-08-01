@@ -21,6 +21,7 @@
 #include <vector>
 #include <unordered_map>
 #include "lobby.hpp"
+#include "game.hpp"
 
 static const char* MESSAGE = "Hello, World!\n";
 
@@ -31,6 +32,19 @@ static int list_sockets[100];
 static int list_sock_num = 0;
 std::unordered_map<int, bufferevent*> socket_to_buffer;
 std::unordered_map<int, std::string> socket_to_state;
+std::unordered_map<int, Game*> socket_to_game;
+
+void writeMesg(int fd, const std::string &msg)
+{
+	bufferevent_write(socket_to_buffer[(int)fd], msg.c_str(), msg.length());
+}
+
+void gameEnd(int fd)
+{
+	socket_to_state[fd] = "LIST";
+	delete socket_to_game[fd];
+	socket_to_game.erase(fd);
+}
 
 static void listener_cb(struct evconnlistener*, evutil_socket_t, struct sockaddr*, int socklen, void*);
 static void conn_writecb(struct bufferevent*, void*);
@@ -179,6 +193,12 @@ static void conn_readcb(struct bufferevent* bev, void* user_data) {
 	std::size_t pos = 0;
 	auto au_mp = socket_to_buffer.find((int)fd);
 
+	if (socket_to_state[(int)fd] == "GAME")
+	{
+		socket_to_game[(int)fd]->dispatchMsg((int)fd, s);
+		return;
+	}
+
 	while (pos < s.length()) {
 		std::size_t new_pos = s.find(deli, pos);
 		std::string current_command = s.substr(pos, new_pos - pos);
@@ -256,6 +276,7 @@ static void conn_readcb(struct bufferevent* bev, void* user_data) {
 					el->player1_id = pending_lobbies[pending_lobbies.size() - 1]->player1_id;
 					el->player2_id = pending_lobbies[pending_lobbies.size() - 1]->player2_id;
 					el->lobby_name = pending_lobbies[pending_lobbies.size() - 1]->lobby_name;
+					delete pending_lobbies[pending_lobbies.size() - 1];
 					pending_lobbies.pop_back();
 
 					msg += "delete ";
@@ -284,6 +305,7 @@ static void conn_readcb(struct bufferevent* bev, void* user_data) {
 					std::cout << "found the right lobby\n";
 					state->second = "GAME";
 					el->player2_id = (int)fd;
+					socket_to_game[(int)fd] = new Game(el->player1_id, el->player2_id);
 
 					for (int i = 0; i < list_sock_num; i++) {
 						if (list_sockets[i] == (int)fd) {
@@ -317,6 +339,7 @@ static void conn_readcb(struct bufferevent* bev, void* user_data) {
 					el->player1_id = pending_lobbies[pending_lobbies.size() - 1]->player1_id;
 					el->player2_id = pending_lobbies[pending_lobbies.size() - 1]->player2_id;
 					el->lobby_name = pending_lobbies[pending_lobbies.size() - 1]->lobby_name;
+					delete pending_lobbies[pending_lobbies.size() - 1];
 					pending_lobbies.pop_back();
 					break;
 				}

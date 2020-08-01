@@ -1,11 +1,22 @@
-﻿#include "game.hpp"
+﻿#include <glfw3.h>
+#include "game.hpp"
 #include "spritepool.hpp"
 #include <iostream>
 #include "text.hpp"
 #include <ctime>
 #include <cstdlib>  
-#include <string>
 #include "settings.hpp"
+#include <string>
+#include "control.hpp"
+
+void Game::keyGet(int key)
+{
+	if (key == GLFW_KEY_ESCAPE)
+	{
+		settings.client.send_message("end\n");
+		Control::changeState(parent);
+	}
+}
 
 void Game::draw() {
 	std::string str = std::to_string(playerOne.getScore()) + "-" + std::to_string(playerTwo.getScore());
