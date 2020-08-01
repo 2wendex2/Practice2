@@ -42,8 +42,6 @@ void Game::mousePress(int x, int y) {
 	}
 }
 
-
-void Game::mouseRelease(int x, int y) { std::cout << x << ' ' << y << ' ' << "LUPA" << std::endl; }
 void Game::charGet(char c) {}
 
 void Game::makeСoordinatesCards(int centreX, int centreY, Player& playerNumber) {
