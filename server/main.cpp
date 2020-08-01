@@ -313,6 +313,10 @@ static void conn_readcb(struct bufferevent* bev, void* user_data) {
 						//bufferevent_write(bev, MESSAGE, strlen(MESSAGE));
 					}
 
+					el->player1_id = pending_lobbies[pending_lobbies.size() - 1]->player1_id;
+					el->player2_id = pending_lobbies[pending_lobbies.size() - 1]->player2_id;
+					el->lobby_name = pending_lobbies[pending_lobbies.size() - 1]->lobby_name;
+					pending_lobbies.pop_back();
 					break;
 				}
 			}
