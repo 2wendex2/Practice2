@@ -4,7 +4,7 @@
 #include "text.hpp"
 #include <iostream>
 
-TextButton::TextButton(int x, int y, int w, int h, std::string s) : Button(x, y, w, h), str(s) {}
+TextButton::TextButton(int x, int y, int w, int h, const std::string& s) : Button(x, y, w, h), str(s) {}
 
 void TextButton::draw()
 {

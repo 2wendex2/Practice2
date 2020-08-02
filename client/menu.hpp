@@ -23,17 +23,17 @@ class Menu : public ControlState
 	};
 	State state = SERVER;
 
-	void addGame(std::string s);
-	void deleteGame(std::string s);
+	void addGame(const std::string &s);
+	void deleteGame(const std::string &s);
 	void gamegameStart();
 public:
-	void toGame(std::string s);
+	void toGame(const std::string &s);
 	void update();
 	void next();
 	void prev();
 	void changeServer();
 	void newGame();
-	void gameStart(std::string s);
+	void gameStart(const std::string &s);
 	void draw();
 	void start();
 	void mouseMove(int x, int y);

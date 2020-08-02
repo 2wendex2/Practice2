@@ -20,7 +20,7 @@ void Menu::changeServer()
 	state = SERVER;
 }
 
-void Menu::gameStart(std::string s)
+void Menu::gameStart(const std::string& s)
 {
 	newState = new GameWaiting(this);
 	Control::changeState(newState);
@@ -34,7 +34,7 @@ void Menu::gamegameStart()
 	state = GAME;
 }
 
-void Menu::toGame(std::string s)
+void Menu::toGame(const std::string &s)
 {
 	std::string sn = "game ";
 	sn += s;
@@ -101,14 +101,14 @@ void Menu::newGame()
 	state = NEWGAME;
 }
 
-void Menu::addGame(std::string s)
+void Menu::addGame(const std::string &s)
 {
 	GameButton gameButton(16, (gb.size() - beg) * 16 + 48, 800 - 32, 16);
 	gb.push_back(gameButton);
 	gb[gb.size() - 1].getStr() = s;
 }
 
-void Menu::deleteGame(std::string s)
+void Menu::deleteGame(const std::string &s)
 {
 	int i = 0;
 	for (; gb[i].getStr() != s && i < gb.size(); i++);

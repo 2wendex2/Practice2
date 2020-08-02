@@ -23,6 +23,7 @@
     <ClCompile Include="..\..\client\card.cpp" />
     <ClCompile Include="..\..\client\control.cpp" />
     <ClCompile Include="..\..\client\controlstate.cpp" />
+    <ClCompile Include="..\..\client\coretest.cpp" />
     <ClCompile Include="..\..\client\deck.cpp" />
     <ClCompile Include="..\..\client\game.cpp" />
     <ClCompile Include="..\..\client\gamewaiting.cpp" />
@@ -44,6 +45,7 @@
     <ClInclude Include="..\..\client\control.hpp" />
     <ClInclude Include="..\..\client\controlimpl\controlimpl.hpp" />
     <ClInclude Include="..\..\client\controlstate.hpp" />
+    <ClInclude Include="..\..\client\coretest.hpp" />
     <ClInclude Include="..\..\client\deck.hpp" />
     <ClInclude Include="..\..\client\game.hpp" />
     <ClInclude Include="..\..\client\gamewaiting.hpp" />

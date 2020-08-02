@@ -32,6 +32,9 @@
   <ImportGroup Label="Shared" />
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>D:\sdk\glfw32\include\GLFW;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="tcp_client.hpp" />

@@ -12,7 +12,7 @@ protected:
 
 public:
 	void draw();
-	TextButton(int x, int y, int w, int h, std::string s);
+	TextButton(int x, int y, int w, int h, const std::string& s);
 };
 
 class CerberButton : public TextButton
