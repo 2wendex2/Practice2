@@ -7,16 +7,12 @@
 class Game : public ControlState
 {
 private:
-	std::vector<Card> table;
-	Player playerOne;
-	Player playerTwo;
-	std::vector<int> index;
-	int currentPlayerPointer;
-	static int step;
-	int turn;
+	std::vector<Card> player;
+
+
 
 private:
-	void makeСoordinatesCards(int centreX, int centreY, Player& playerNumber);
+	void makeСoordinatesCards(int centreX, int centreY);
 
 public:
 	void update();

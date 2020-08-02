@@ -23,6 +23,7 @@
 #include "lobby.hpp"
 #include "game.hpp"
 
+
 static const char* MESSAGE = "Hello, World!\n";
 
 static const int PORT = 13;
@@ -53,6 +54,7 @@ static void conn_eventcb(struct bufferevent*, short, void*);
 static void signal_cb(evutil_socket_t, short, void*);
 
 int main(int argc, char** argv) {
+	srand(time(0));
 	std::cout << "START\n";
 
 	for (int i = 0; i < 100; i++) {
@@ -306,7 +308,7 @@ static void conn_readcb(struct bufferevent* bev, void* user_data) {
 					state->second = "GAME";
 					el->player2_id = (int)fd;
 					socket_to_game[(int)fd] = new Game(el->player1_id, el->player2_id);
-
+					socket_to_game[(int)el->player1_id] = socket_to_game[(int)fd];
 					for (int i = 0; i < list_sock_num; i++) {
 						if (list_sockets[i] == (int)fd) {
 							for (int j = i + 1; j < list_sock_num; j++) {

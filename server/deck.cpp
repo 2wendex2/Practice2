@@ -23,9 +23,8 @@ void Deck::createDeck() {
 	this->cards.push_back({ "hurricane", "air", 4, 15 });
 }
 
-void Deck::shuffle() {
-	for (int i = 0; i < this->cards.size(); i++)
-		std::swap(this->cards[i], this->cards[rand() % this->cards.size()]);
+void Deck::myShuffle() {
+	std::random_shuffle(cards.begin(), cards.end());
 }
 
 

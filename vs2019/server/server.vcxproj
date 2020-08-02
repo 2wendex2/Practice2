@@ -19,14 +19,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\server\card.cpp" />
     <ClCompile Include="..\..\server\game.cpp" />
     <ClCompile Include="..\..\server\lobby.cpp" />
     <ClCompile Include="..\..\server\main.cpp" />
+    <ClCompile Include="..\..\server\player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\servercmd.hpp" />
+    <ClInclude Include="..\..\server\card.hpp" />
     <ClInclude Include="..\..\server\game.hpp" />
     <ClInclude Include="..\..\server\lobby.hpp" />
+    <ClInclude Include="..\..\server\player.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

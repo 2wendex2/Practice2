@@ -8,20 +8,14 @@ class Deck {
 public:
 	std::vector<Card> cards;
 
-private:
+public:
 	void createDeck(); 
-	void shuffle();
+	void myShuffle();
 
 public:	    
 	Deck() {
 		createDeck();
-		shuffle();
-		shuffle();
-		shuffle();
-		shuffle();
 	}
-	
-	Card pop(); 
 };
 
 #endif

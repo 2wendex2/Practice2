@@ -3,15 +3,21 @@
 
 #include <string>
 #include <event2/bufferevent.h>
+#include "player.hpp"
 
-class Game
-{
+class Game {	
+	Player  playerOne;
+	Player  playerTwo;
 	int player1;
 	int player2;
+	std::vector<int> deckPlayer;
+	int turn;
+	int step;
+	
 
 	void msgSwitch(int player1, int player2, std::string s);
 public:
-	Game(int player1, int player2) : player1(player1), player2(player2) {}
+	Game(int player1, int player2) : player1(player1), player2(player2), turn(rand() % 2) {}
 	void dispatchMsg(int player, std::string s);
 };
 
