@@ -12,12 +12,12 @@ class Game {
 	int player2;
 	std::vector<int> deckPlayer;
 	int turn;
-	int step;
+	int step = 0;
 	
 
 	void msgSwitch(int player1, int player2, std::string s);
 public:
-	Game(int player1, int player2) : player1(player1), player2(player2), turn(rand() % 2) {}
+	Game(int player1, int player2) : player1(player1), player2(player2) {}
 	void dispatchMsg(int player, std::string s);
 };
 

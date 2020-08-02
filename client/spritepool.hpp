@@ -22,7 +22,7 @@ class SpritePool
 public:
 	static Sprite font;
 	static Sprite cerber;
-	static Sprite cards[16];
+	static Sprite cards[17];
 	static Sprite arena;
 	static Sprite rubashka;
 

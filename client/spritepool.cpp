@@ -41,7 +41,7 @@ void Sprite::drawPart(int x, int y, float tl, float tt, float tr, float tb,float
 
 Sprite SpritePool::font;
 Sprite SpritePool::cerber;
-Sprite SpritePool::cards[16];
+Sprite SpritePool::cards[17];
 Sprite SpritePool::arena;
 Sprite SpritePool::rubashka;
 
@@ -49,7 +49,7 @@ void SpritePool::loadAll()
 {
 	font.load("font.png");
 	cerber.load("cerber.png");
-	for (int i = 0; i < 16; i++) {
+	for (int i = 0; i < 17; i++) {
 		std::string str = std::to_string(i + 1) + ".png";
 		cards[i].load(str.c_str());
 	}

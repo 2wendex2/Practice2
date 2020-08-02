@@ -25,15 +25,14 @@ void Game::draw() {
 		this->player[i].draw();
 	}
 	int x = 55;
-	for (int i = 0; i < 10; i++) {
-		SpritePool::rubashka.draw(x, 15);
-		x += 70;
+	for (int i = 0; i < this->enemyDeck.size(); i++) {
+		this->enemyDeck[i].draw();
 	}
 	
 	//Text::draw(760, 280, 800, 80, str, 20, 0.f, 0.7f, 1.f);
 }
 
-Game::Game(ControlState* parent) : ControlState(parent), player(10) {}
+Game::Game(ControlState* parent) : ControlState(parent), player(10), enemyDeck(10) {}
 
 void Game::mousePress(int x, int y) {
 	for (int i = 0; i < this->player.size(); i++) {
@@ -51,7 +50,7 @@ void Game::charGet(char c) {}
 void Game::makeСoordinatesCards(int centreX, int centreY) {
 	for (int i = 0; i < this->player.size(); i++) {
 		this->player[i].pushCoordsCard(centreX, centreY);
-		centreX += 2 * 30 + 10;
+		centreX += 70;
 	}
 }
 
@@ -59,7 +58,12 @@ void Game::start() {
 	settings.client.send_message("create\n");
 	srand(time(0));
 	Game::makeСoordinatesCards(85, 530);
-	
+	int x = 85;
+	for (int i = 0; i < this->enemyDeck.size(); i++) {
+		this->enemyDeck[i].id = 16;
+		enemyDeck[i].pushCoordsCard(x, 75);
+		x += 70;
+	}
 }
 
 void Game::update()
@@ -82,10 +86,20 @@ void Game::update()
 				this->player[i].id = std::stoi(cmd[i + c + 1]);
 			}
 	
-		}
-		else if (cmd[c + 0] == "throwcard") {
+		} else if (cmd[c + 0] == "attack") {
 			int index = std::stoi(cmd[c + 1]);
-			this->player[index].pushCoordsCard(400, 300);
+			for (int i = 0; i < this->player.size(); i++) {
+				if (this->player[i].id == index) {
+					this->player[i].pushCoordsCard(400, 370);
+					break;
+				}
+			}
+		}
+		else if (cmd[c + 0] == "movecard1") {
+			int index = std::stoi(cmd[c + 1]);
+			int id = std::stoi(cmd[c + 2]);
+			this->enemyDeck[index].pushCoordsCard(400, 230);
+			this->enemyDeck[index].id = id;
 		}
 		
 	}

@@ -1,6 +1,8 @@
 ﻿#ifndef _GAME_HPP_
 #define _GAME_HPP_
-#include "player.hpp"
+#include "card.hpp"
+#include <vector>
+#include <iostream>
 
 #include "controlstate.hpp"
 
@@ -8,6 +10,7 @@ class Game : public ControlState
 {
 private:
 	std::vector<Card> player;
+	std::vector<Card> enemyDeck;
 
 
 
