@@ -347,6 +347,7 @@ static void conn_readcb(struct bufferevent* bev, void* user_data) {
 			break;
 		default:
 			std::cout << "BAD COMMAND\n";
+			std::cout << current_command << std::endl;
 			break;
 		}
 	}

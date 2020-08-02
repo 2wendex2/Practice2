@@ -7,6 +7,7 @@
 #include <cstdlib>  
 #include "settings.hpp"
 #include <string>
+#include "../servercmd.hpp"
 #include "control.hpp"
 
 void Game::keyGet(int key)
@@ -29,8 +30,6 @@ void Game::draw() {
 	}
 	Text::draw(760, 280, 800, 80, str, 20, 0.f, 0.7f, 1.f);
 }
-
-void Game::update() {}
 
 Game::Game(ControlState* parent) : ControlState(parent) {}
 
@@ -69,4 +68,22 @@ void Game::start() {
 	Game::makeСoordinatesCards(85, 530, this->playerOne);
 	Game::makeСoordinatesCards(85, 75, this->playerTwo);
 	
+}
+
+void Game::update()
+{
+	std::string cmdstring = settings.client.recieve_message();
+	if (cmdstring.size() == 0)
+		return;
+
+	Servercmd cmd(cmdstring);
+	for (int c = 0; c < cmd.size(); c++)
+	{
+		if (cmd[c + 0] == "end")
+		{
+			std::cout << "yyy";
+			Control::changeState(parent);
+			break;
+		}
+	}
 }
