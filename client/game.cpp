@@ -29,8 +29,9 @@ void Game::draw() {
 	for (int i = 0; i < this->enemyDeck.size(); i++) {
 		this->enemyDeck[i].draw();
 	}
-	
-	//Text::draw(760, 280, 800, 80, str, 20, 0.f, 0.7f, 1.f);
+	if (this->draw_Text) {
+		Text::draw(90, 280, 800, 80, str, 20, 0.f, 0.7f, 1.f);
+	}
 }
 
 Game::Game(ControlState* parent) : ControlState(parent), hand(10), enemyDeck(10) {}
@@ -83,7 +84,8 @@ void Game::update()
 				this->hand[i].id = std::stoi(cmd[i + c + 1]);
 			}
 	
-		} else if (cmd[c + 0] == "attack1") {
+		} else if (cmd[c + 0] == "attack") {
+			this->draw_Text = false;
 			int index = std::stoi(cmd[c + 1]);
 			for (int i = 0; i < this->hand.size(); i++) {
 				if (this->hand[i].id == index) {
@@ -92,13 +94,15 @@ void Game::update()
 				}
 			}
 		}
-		else if (cmd[c + 0] == "movecard1") {
+		else if (cmd[c + 0] == "movecard") {
+			this->draw_Text = false;
 			int index = std::stoi(cmd[c + 1]);
 			int id = std::stoi(cmd[c + 2]);
 			this->enemyDeck[index].pushCoordsCard(400, 230);
 			this->enemyDeck[index].id = id;
 		}
-		else if (cmd[c + 0] == "defence1") {
+		else if (cmd[c + 0] == "defence") {
+			this->draw_Text = false;
 			int index = std::stoi(cmd[c + 1]);
 			for (int i = 0; i < this->hand.size(); i++) {
 				if (this->hand[i].id == index) {
@@ -106,11 +110,14 @@ void Game::update()
 					break;
 				}
 			}
-		} else if (cmd[c + 0] == "movecard2") {
-			int index = std::stoi(cmd[c + 1]);
-			int id = std::stoi(cmd[c + 2]);
-			this->enemyDeck[index].pushCoordsCard(400, 230);
-			this->enemyDeck[index].id = id;
+		} 
+		else if (cmd[c + 0] == "weakcard") {
+			this->str = "weak card";
+			this->draw_Text = true;
+		}
+		else if (cmd[c + 0] == "notcard") {
+			this->str = "no cards to defence";
+			this->draw_Text = true;
 		}
 	}
 }

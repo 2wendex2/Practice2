@@ -14,7 +14,7 @@ int Player::getPower(int id) {
 	return Card::powerArray[id];
 }
 
-int Player::getElement(int id) {
+Card::Element Player::getElement(int id) {
 	return Card::elementArray[id];
 }
 

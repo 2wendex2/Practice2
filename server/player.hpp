@@ -13,7 +13,7 @@ public:
 	 }
 
 	int getPower(int id);
-	int getElement(int id);
+	Card::Element getElement(int id);
 
 private:
 	void initHand();

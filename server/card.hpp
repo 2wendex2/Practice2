@@ -7,8 +7,8 @@ public:
 	enum Element {
 		FIRE,
 		LAND,
-		WATER,
-		AIR
+		AIR,
+		WATER
 	};
 	static const Element elementArray[16];
 	static const int powerArray[16];

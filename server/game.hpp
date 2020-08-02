@@ -18,7 +18,7 @@ class Game {
 
 	void msgSwitch(int player1, int player2, std::string s);
 public:
-	Game(int player1, int player2) : player1(player1), player2(player2) {}
+	Game(int player1, int player2) : player1(player1), player2(player2), index(2), turn(rand() % 2) {}
 	void dispatchMsg(int player, std::string s);
 };
 

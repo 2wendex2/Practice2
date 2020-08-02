@@ -11,7 +11,8 @@ class Game : public ControlState
 private:
 	std::vector<Card> hand;
 	std::vector<Card> enemyDeck;
-
+	std::string str;
+	bool draw_Text = false;
 
 
 private:
