@@ -43,6 +43,8 @@ void gameEnd(int fd)
 	socket_to_state[fd] = "LIST";
 	delete socket_to_game[fd];
 	socket_to_game.erase(fd);
+	list_sockets[list_sock_num] = fd;
+	list_sock_num++;
 }
 
 static void listener_cb(struct evconnlistener*, evutil_socket_t, struct sockaddr*, int socklen, void*);
@@ -222,6 +224,8 @@ static void conn_readcb(struct bufferevent* bev, void* user_data) {
 		case 'n':
 			sp = current_command.find(' ');
 			name = current_command.substr(sp + 1);
+			if (name == "")
+				break;
 
 			if (state->second != "LIST") break;
 			//проверить соответствие state->second

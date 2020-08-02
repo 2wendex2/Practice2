@@ -81,7 +81,6 @@ void Game::update()
 	{
 		if (cmd[c + 0] == "end")
 		{
-			std::cout << "yyy";
 			Control::changeState(parent);
 			break;
 		}

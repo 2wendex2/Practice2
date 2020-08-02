@@ -75,6 +75,9 @@ void Menu::start()
 		}
 	else if (state == NEWGAME)
 		{
+		for (int i = 0; i < lastGame.size(); i++)
+			if (isspace(lastGame[i]))
+				return;
 			std::string s = "newgame ";
 			s += lastGame;
 			s += '\n';
