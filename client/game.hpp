@@ -9,13 +9,13 @@
 class Game : public ControlState
 {
 private:
-	std::vector<Card> player;
+	std::vector<Card> hand;
 	std::vector<Card> enemyDeck;
 
 
 
 private:
-	void makeСoordinatesCards(int centreX, int centreY);
+	void makeСoordinatesCards(int centreX, int centreY, std::vector<Card>& deck);
 
 public:
 	void update();

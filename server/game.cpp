@@ -45,27 +45,37 @@ void Game::msgSwitch(int player1, int player2, std::string s)
 		}
 	}
 	else if (cmd[0] == "click") {
-		this->turn == 0;
+		this->turn = 0;
 		if (this->turn == 0) {
 			if (this->player1 == player1 && this->step == 0) {
-				std::string str1 = "attack";
-				int index = std::stoi(cmd[1]);
-				str1 += " " + std::to_string(this->playerOne.hand[index]);
+				std::string str1 = "attack1";
+				int ind = std::stoi(cmd[1]);
+				this->index.push_back(ind);
+				str1 += " " + std::to_string(this->playerOne.hand[this->index[0]]) + "\n";
 				writeMesg(player1, str1);
 				std::string str2 = "movecard1";
-				str2 += " " + std::to_string(index) + " " + std::to_string(this->playerOne.hand[index]);
+				str2 += " " + std::to_string(this->index[0]) + " " + std::to_string(this->playerOne.hand[this->index[0]]) + "\n";
 				writeMesg(player2, str2);
 				this->step++;
 			}
 			else if (this->player2 == player1 && this->step == 1) {
-				int index = std::stoi(cmd[1]);
+				std::string str1 = "defence1";
+				int powerAttack = this->playerOne.getPower(this->playerOne.hand[this->index[0]]);
+				int ind = std::stoi(cmd[1]);
+				this->index.push_back(ind);
+				if (this->playerTwo.getPower(this->playerTwo.hand[this->index[1]]) > powerAttack) {
+					str1 += " " + std::to_string(this->playerTwo.hand[this->index[1]]) + "\n";
+				}
+				writeMesg(player1, str1);
 				std::string str2 = "movecard2";
-				str2 += " " + std::to_string(this->playerTwo.hand[index]);
+				str2 += " " + std::to_string(this->index[1]) + " " + std::to_string(this->playerTwo.hand[this->index[1]]) + "\n";
 				writeMesg(player2, str2);
+				this->step = 0;
+				this->index.clear();
 			}
 		}
 		else if (this->turn == 1 && this->player2 == player1) {
-			std::string str = "attack";
+			std::string str = "attack2";
 			int index = std::stoi(cmd[1]);
 			str += " " + std::to_string(this->playerTwo.hand[index]);
 			writeMesg(player1, str);

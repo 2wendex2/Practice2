@@ -13,6 +13,7 @@ class Game {
 	std::vector<int> deckPlayer;
 	int turn;
 	int step = 0;
+	std::vector<int> index;
 	
 
 	void msgSwitch(int player1, int player2, std::string s);

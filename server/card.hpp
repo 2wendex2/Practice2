@@ -12,7 +12,7 @@ public:
 	};
 	static const Element elementArray[16];
 	static const int powerArray[16];
-
+	
 };
 
 #endif

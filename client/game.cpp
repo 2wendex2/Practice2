@@ -9,6 +9,7 @@
 #include <string>
 #include "../servercmd.hpp"
 #include "control.hpp"
+#include <vector>;
 
 void Game::keyGet(int key)
 {
@@ -21,8 +22,8 @@ void Game::keyGet(int key)
 
 void Game::draw() {
 	SpritePool::arena.draw(0, 0);
-	for (int i = 0; i < this->player.size(); i++) {
-		this->player[i].draw();
+	for (int i = 0; i < this->hand.size(); i++) {
+		this->hand[i].draw();
 	}
 	int x = 55;
 	for (int i = 0; i < this->enemyDeck.size(); i++) {
@@ -32,12 +33,12 @@ void Game::draw() {
 	//Text::draw(760, 280, 800, 80, str, 20, 0.f, 0.7f, 1.f);
 }
 
-Game::Game(ControlState* parent) : ControlState(parent), player(10), enemyDeck(10) {}
+Game::Game(ControlState* parent) : ControlState(parent), hand(10), enemyDeck(10) {}
 
 void Game::mousePress(int x, int y) {
-	for (int i = 0; i < this->player.size(); i++) {
-		if (this->player[i].x1 <= x && this->player[i].x2 >= x
-			&& this->player[i].y1 <= y && this->player[i].y2 >= y) {
+	for (int i = 0; i < this->hand.size(); i++) {
+		if (this->hand[i].x1 <= x && this->hand[i].x2 >= x
+			&& this->hand[i].y1 <= y && this->hand[i].y2 >= y) {
 			std::string str = "click " + std::to_string(i) + "\n";
 			settings.client.send_message(str.c_str());
 		}
@@ -47,9 +48,10 @@ void Game::mousePress(int x, int y) {
 
 void Game::charGet(char c) {}
 
-void Game::makeСoordinatesCards(int centreX, int centreY) {
-	for (int i = 0; i < this->player.size(); i++) {
-		this->player[i].pushCoordsCard(centreX, centreY);
+void Game::makeСoordinatesCards(int centreX, int centreY, std::vector<Card>& deck) {
+	for (int i = 0; i < deck.size(); i++) {
+		deck[i].id = 16;
+		deck[i].pushCoordsCard(centreX, centreY);
 		centreX += 70;
 	}
 }
@@ -57,13 +59,8 @@ void Game::makeСoordinatesCards(int centreX, int centreY) {
 void Game::start() {
 	settings.client.send_message("create\n");
 	srand(time(0));
-	Game::makeСoordinatesCards(85, 530);
-	int x = 85;
-	for (int i = 0; i < this->enemyDeck.size(); i++) {
-		this->enemyDeck[i].id = 16;
-		enemyDeck[i].pushCoordsCard(x, 75);
-		x += 70;
-	}
+	Game::makeСoordinatesCards(85, 530, this->hand);
+	Game::makeСoordinatesCards(85, 75, this->enemyDeck);
 }
 
 void Game::update()
@@ -83,14 +80,14 @@ void Game::update()
 		} else if (cmd[c + 0] == "card") {
 
 			for (int i = 0; i < 10; i++) {
-				this->player[i].id = std::stoi(cmd[i + c + 1]);
+				this->hand[i].id = std::stoi(cmd[i + c + 1]);
 			}
 	
-		} else if (cmd[c + 0] == "attack") {
+		} else if (cmd[c + 0] == "attack1") {
 			int index = std::stoi(cmd[c + 1]);
-			for (int i = 0; i < this->player.size(); i++) {
-				if (this->player[i].id == index) {
-					this->player[i].pushCoordsCard(400, 370);
+			for (int i = 0; i < this->hand.size(); i++) {
+				if (this->hand[i].id == index) {
+					this->hand[i].pushCoordsCard(400, 370);
 					break;
 				}
 			}
@@ -101,6 +98,19 @@ void Game::update()
 			this->enemyDeck[index].pushCoordsCard(400, 230);
 			this->enemyDeck[index].id = id;
 		}
-		
+		else if (cmd[c + 0] == "defence1") {
+			int index = std::stoi(cmd[c + 1]);
+			for (int i = 0; i < this->hand.size(); i++) {
+				if (this->hand[i].id == index) {
+					this->hand[i].pushCoordsCard(400, 370);
+					break;
+				}
+			}
+		} else if (cmd[c + 0] == "movecard2") {
+			int index = std::stoi(cmd[c + 1]);
+			int id = std::stoi(cmd[c + 2]);
+			this->enemyDeck[index].pushCoordsCard(400, 230);
+			this->enemyDeck[index].id = id;
+		}
 	}
 }
