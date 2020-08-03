@@ -8,8 +8,12 @@ class Player {
 
 public:
 	 std::vector<int> hand;
+	 bool trueCard[10];
 	 Player() {
 		 this->initHand();
+		 for (int i = 0; i < 10; i++) {
+			 this->trueCard[i] = true;
+		 }
 	 }
 
 	int getPower(int id);

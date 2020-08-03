@@ -11,7 +11,10 @@ class Game : public ControlState
 private:
 	std::vector<Card> hand;
 	std::vector<Card> enemyDeck;
+	Card* myCard = NULL;
+	Card* enemyCard = NULL;
 	std::string str;
+	int x = 90;
 	bool draw_Text = false;
 
 

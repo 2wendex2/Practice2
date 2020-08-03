@@ -43,7 +43,7 @@ Sprite SpritePool::font;
 Sprite SpritePool::cerber;
 Sprite SpritePool::cards[17];
 Sprite SpritePool::arena;
-Sprite SpritePool::rubashka;
+
 
 void SpritePool::loadAll()
 {
@@ -54,5 +54,4 @@ void SpritePool::loadAll()
 		cards[i].load(str.c_str());
 	}
 	arena.load("arena.png");
-	rubashka.load("rubashka.png");
 }

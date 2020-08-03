@@ -9,7 +9,9 @@ void Card::pushCoordsCard(int centreX, int centreY) {
 }
 
 void Card::draw() {
-	SpritePool::cards[this->id].draw(this->x1, this->y1);
+	if (this->putOnTexture) {
+		SpritePool::cards[this->id].draw(this->x1, this->y1);
+	}
 }
 
 

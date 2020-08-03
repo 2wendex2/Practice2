@@ -51,12 +51,16 @@ void Game::msgSwitch(int player1, int player2, std::string s)
 				std::string str1 = "attack";
 				int ind = std::stoi(cmd[1]);
 				this->index[0] = ind;
+				if (!this->trueCard1[this->index[0]]) {
+					return;
+				}
+				this->trueCard1[this->index[0]] = false;
 				str1 += " " + std::to_string(this->playerOne.hand[this->index[0]]) + "\n";
 				writeMesg(player1, str1);
 				std::string str2 = "movecard";
 				str2 += " " + std::to_string(this->index[0]) + " " + std::to_string(this->playerOne.hand[this->index[0]]) + "\n";
 				writeMesg(player2, str2);
-				this->step++;
+				this->step = 1;
 			}
 			else if (this->player2 == player1 && this->step == 1) {
 				int k = 0;
@@ -70,14 +74,14 @@ void Game::msgSwitch(int player1, int player2, std::string s)
 								this->playerOne.getElement(this->playerOne.hand[this->index[0]]) == Card::Element::WATER) ||
 								(this->playerTwo.getElement(this->playerTwo.hand[i]) == Card::Element::WATER &&
 									this->playerOne.getElement(this->playerOne.hand[this->index[0]]) == Card::Element::FIRE)) {
-						if (this->playerTwo.getPower(this->playerTwo.hand[i]) == powerAttack - 1) {
+						if (this->playerTwo.getPower(this->playerTwo.hand[i]) == powerAttack - 1 && this->trueCard2[i]) {
 							k++;
 						}
-						else if (this->playerTwo.getPower(this->playerTwo.hand[i]) >= powerAttack) {
+						else if (this->playerTwo.getPower(this->playerTwo.hand[i]) >= powerAttack && this->trueCard2[i]) {
 							k++;
 						}
 					}
-					else if (this->playerTwo.getPower(this->playerTwo.hand[i]) > powerAttack) {
+					else if (this->playerTwo.getPower(this->playerTwo.hand[i]) > powerAttack && this->trueCard2[i]) {
 						k++;
 					}
 				}
@@ -85,12 +89,15 @@ void Game::msgSwitch(int player1, int player2, std::string s)
 					std::string str1 = "notcard\n";
 					writeMesg(player1, str1);
 					this->step = 0;
-					this->turn++;
+					this->turn = 1;
 				}
 				if (this->step == 1) {
 					std::string str1 = "defence";
 					int ind = std::stoi(cmd[1]);
 					this->index[1] = ind;
+					if (!this->trueCard2[this->index[1]]) {
+						return;
+					}
 					if ((this->playerTwo.getElement(this->playerTwo.hand[this->index[1]]) == Card::Element::FIRE &&
 						this->playerOne.getElement(this->playerOne.hand[this->index[0]]) == Card::Element::LAND) ||
 						(this->playerTwo.getElement(this->playerTwo.hand[this->index[1]]) == Card::Element::LAND &&
@@ -111,12 +118,13 @@ void Game::msgSwitch(int player1, int player2, std::string s)
 					}
 					if (str1.size() > 8) {
 						int size = str1.size();
+						this->trueCard2[this->index[1]] = false;
 						writeMesg(player1, str1);
 						std::string str2 = "movecard";
 						str2 += " " + std::to_string(this->index[1]) + " " + std::to_string(this->playerTwo.hand[this->index[1]]) + "\n";
 						writeMesg(player2, str2);
 						this->step = 0;
-						this->turn++;
+						this->turn = 1;
 					}
 					else {
 						std::string str2 = "weakcard\n";
@@ -130,17 +138,28 @@ void Game::msgSwitch(int player1, int player2, std::string s)
 				std::string str1 = "attack";
 				int ind = std::stoi(cmd[1]);
 				this->index[0] = ind;
+				if (!this->trueCard2[ind]) {
+					return;
+				}
+				this->trueCard2[ind] = false;
 				str1 += " " + std::to_string(this->playerTwo.hand[this->index[0]]) + "\n";
 				writeMesg(player1, str1);
 				std::string str2 = "movecard";
 				str2 += " " + std::to_string(this->index[0]) + " " + std::to_string(this->playerTwo.hand[this->index[0]]) + "\n";
 				writeMesg(player2, str2);
-				this->step++;
+				this->step = 1;
 			}
 			else if (this->player1 == player1 && this->step == 1) {
 				int k = 0;
+				if (!beatOffTheCard(this->index[0], this->playerOne, this->playerTwo)) {
+					this->step = 0;
+					this->turn = 0;
+					std::string str1 = "notcard\n";
+					writeMesg(player1, str1);
+					return;
+				}
 				int powerAttack = this->playerTwo.getPower(this->playerTwo.hand[this->index[0]]);
-				for (int i = 0; i < this->playerOne.hand.size(); i++) {
+				/*for (int i = 0; i < this->playerOne.hand.size(); i++) {
 					if ((this->playerOne.getElement(this->playerOne.hand[i]) == Card::Element::FIRE &&
 						this->playerTwo.getElement(this->playerTwo.hand[this->index[0]]) == Card::Element::LAND) ||
 						(this->playerOne.getElement(this->playerOne.hand[i]) == Card::Element::LAND &&
@@ -149,23 +168,23 @@ void Game::msgSwitch(int player1, int player2, std::string s)
 								this->playerTwo.getElement(this->playerTwo.hand[this->index[0]]) == Card::Element::WATER) ||
 								(this->playerOne.getElement(this->playerOne.hand[i]) == Card::Element::WATER &&
 									this->playerTwo.getElement(this->playerTwo.hand[this->index[0]]) == Card::Element::FIRE)) {
-						if (this->playerOne.getPower(this->playerOne.hand[i]) == powerAttack - 1) {
+						if (this->playerOne.getPower(this->playerOne.hand[i]) == powerAttack - 1 && this->trueCard1[i]) {
 							k++;
 						}
-						else if (this->playerOne.getPower(this->playerOne.hand[i]) >= powerAttack) {
+						else if (this->playerOne.getPower(this->playerOne.hand[i]) >= powerAttack && this->trueCard1[i]) {
 							k++;
 						}
 					}
-					else if (this->playerOne.getPower(this->playerOne.hand[i]) > powerAttack) {
+					else if (this->playerOne.getPower(this->playerOne.hand[i]) > powerAttack && this->trueCard1[i]) {
 						k++;
 					}
-				}
+				} 
 				if (k == 0) {
 					std::string str1 = "notcard\n";
 					writeMesg(player1, str1);
 					this->step = 0;
 					this->turn = 0;
-				}
+				} */
 				if (this->step == 1) {
 					std::string str1 = "defence";
 					int ind = std::stoi(cmd[1]);
@@ -190,12 +209,13 @@ void Game::msgSwitch(int player1, int player2, std::string s)
 					}
 					if (str1.size() > 8) {
 						int size = str1.size();
+						this->trueCard1[ind] = false;
 						writeMesg(player1, str1);
 						std::string str2 = "movecard";
 						str2 += " " + std::to_string(this->index[1]) + " " + std::to_string(this->playerOne.hand[this->index[1]]) + "\n";
 						writeMesg(player2, str2);
-						this->step = 0;
 						this->turn = 0;
+						this->step = 0;
 					}
 					else {
 						std::string str2 = "weakcard\n";
@@ -205,4 +225,29 @@ void Game::msgSwitch(int player1, int player2, std::string s)
 			}
 		}
 	}
+}
+
+bool Game::beatOffTheCard(int id, Player& playerOne, Player& playerTwo) {
+	int powerAttack = playerTwo.getPower(playerTwo.hand[id]);
+	for (int i = 0; i < playerOne.hand.size(); i++) {
+		if ((playerOne.getElement(playerOne.hand[i]) == Card::Element::FIRE &&
+			playerTwo.getElement(playerTwo.hand[id]) == Card::Element::LAND) ||
+			(playerOne.getElement(playerOne.hand[i]) == Card::Element::LAND &&
+				playerTwo.getElement(playerTwo.hand[id]) == Card::Element::AIR) ||
+				(playerOne.getElement(playerOne.hand[i]) == Card::Element::AIR &&
+					playerTwo.getElement(playerTwo.hand[id]) == Card::Element::WATER) ||
+					(playerOne.getElement(playerOne.hand[i]) == Card::Element::WATER &&
+						playerTwo.getElement(playerTwo.hand[id]) == Card::Element::FIRE)) {
+			if (playerOne.getPower(playerOne.hand[i]) == powerAttack - 1 && playerOne.trueCard[i]) {
+				return true;
+			}
+			else if (playerOne.getPower(playerOne.hand[i]) >= powerAttack && playerOne.trueCard[i]) {
+				return true;
+			}
+		}
+		else if (playerOne.getPower(playerOne.hand[i]) > powerAttack && playerOne.trueCard[i]) {
+			return true;
+		}
+	}
+	return false;
 }

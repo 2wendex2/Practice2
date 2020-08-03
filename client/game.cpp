@@ -10,6 +10,9 @@
 #include "../servercmd.hpp"
 #include "control.hpp"
 #include <vector>;
+#include <chrono>
+#include <thread>
+
 
 void Game::keyGet(int key)
 {
@@ -25,12 +28,11 @@ void Game::draw() {
 	for (int i = 0; i < this->hand.size(); i++) {
 		this->hand[i].draw();
 	}
-	int x = 55;
 	for (int i = 0; i < this->enemyDeck.size(); i++) {
 		this->enemyDeck[i].draw();
 	}
 	if (this->draw_Text) {
-		Text::draw(90, 280, 800, 80, str, 20, 0.f, 0.7f, 1.f);
+		Text::draw(this->x, 280, 800, 80, str, 20, 0.f, 0.7f, 1.f);
 	}
 }
 
@@ -39,7 +41,7 @@ Game::Game(ControlState* parent) : ControlState(parent), hand(10), enemyDeck(10)
 void Game::mousePress(int x, int y) {
 	for (int i = 0; i < this->hand.size(); i++) {
 		if (this->hand[i].x1 <= x && this->hand[i].x2 >= x
-			&& this->hand[i].y1 <= y && this->hand[i].y2 >= y) {
+			&& this->hand[i].y1 <= y && this->hand[i].y2 >= y && this->hand[i].clickable == true) {
 			std::string str = "click " + std::to_string(i) + "\n";
 			settings.client.send_message(str.c_str());
 		}
@@ -85,21 +87,42 @@ void Game::update()
 			}
 	
 		} else if (cmd[c + 0] == "attack") {
+			if (this->myCard != NULL) {
+				this->myCard->putOnTexture = false;
+				this->myCard = NULL;
+			}
+			if (this->enemyCard != NULL) {
+				this->enemyCard->putOnTexture = false;
+				this->enemyCard = NULL;
+			}
 			this->draw_Text = false;
 			int index = std::stoi(cmd[c + 1]);
 			for (int i = 0; i < this->hand.size(); i++) {
 				if (this->hand[i].id == index) {
 					this->hand[i].pushCoordsCard(400, 370);
+					this->myCard = &this->hand[i];
+					this->hand[i].clickable = false;
 					break;
 				}
 			}
 		}
 		else if (cmd[c + 0] == "movecard") {
+			if (this->enemyCard != NULL) {
+				if (this->myCard != NULL) {
+					this->myCard->putOnTexture = false;
+					this->myCard = NULL;
+				}
+				if (this->enemyCard != NULL) {
+					this->enemyCard->putOnTexture = false;
+					this->enemyCard = NULL;
+				}
+			}
 			this->draw_Text = false;
 			int index = std::stoi(cmd[c + 1]);
 			int id = std::stoi(cmd[c + 2]);
 			this->enemyDeck[index].pushCoordsCard(400, 230);
 			this->enemyDeck[index].id = id;
+			this->enemyCard = &this->enemyDeck[index];
 		}
 		else if (cmd[c + 0] == "defence") {
 			this->draw_Text = false;
@@ -107,16 +130,20 @@ void Game::update()
 			for (int i = 0; i < this->hand.size(); i++) {
 				if (this->hand[i].id == index) {
 					this->hand[i].pushCoordsCard(400, 370);
+					this->myCard = &this->hand[i];
+					this->hand[i].clickable = false;
 					break;
 				}
 			}
 		} 
 		else if (cmd[c + 0] == "weakcard") {
 			this->str = "weak card";
+			this->x = 90;
 			this->draw_Text = true;
 		}
 		else if (cmd[c + 0] == "notcard") {
 			this->str = "no cards to defence";
+			this->x = 150;
 			this->draw_Text = true;
 		}
 	}

@@ -24,7 +24,6 @@ public:
 	static Sprite cerber;
 	static Sprite cards[17];
 	static Sprite arena;
-	static Sprite rubashka;
 
 	static void loadAll();
 };
