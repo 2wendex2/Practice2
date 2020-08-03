@@ -85,7 +85,7 @@ int main(int argc, char** argv) {
 	}
 
 	int port = PORT;
-	if (argc > 0)
+	if (argc > 1)
 		port = std::stoi(argv[1]);
 	sin.sin_family = AF_INET;
 	sin.sin_port = htons(port);
