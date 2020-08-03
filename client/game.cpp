@@ -36,6 +36,9 @@ void Game::draw() {
 	Text::draw(this->x, 320, 800, 80, this->str, 20, 0.f, 0.7f, 1.f);
 	Text::draw(720, 400, 800, 80, str1, 20, 0.f, 0.7f, 1.f);
 	Text::draw(720, 200, 800, 80, str2, 20, 0.f, 0.7f, 1.f);
+	if (this->text_Draw) {
+		Text::draw(400, 450, 800, 80, this->textHint, 20, 0.f, 0.7f, 1.f);
+	}
 }
 
 Game::Game(ControlState* parent) : ControlState(parent), hand(10), enemyDeck(10) {}
@@ -172,14 +175,17 @@ void Game::update()
 		else if (cmd[c + 0] == "win") {
 			this->x = 100;
 			this->str = "YOU WIN";
+			this->text_Draw = true;
 		}
 		else if (cmd[c + 0] == "lose") {
 			this->x = 100;
 			this->str = "YOU LOSE";
+			this->text_Draw = true;
 		}
 		else if (cmd[c + 0] == "draw") {
 			this->x = 100;
 			this->str = "DRAW";
+			this->text_Draw = true;
 		}
 	}
 }
