@@ -9,6 +9,7 @@ class Player {
 public:
 	 std::vector<int> hand;
 	 bool trueCard[10];
+	 int score = 0;
 	 Player() {
 		 this->initHand();
 		 for (int i = 0; i < 10; i++) {

@@ -24,6 +24,8 @@ void Game::keyGet(int key)
 }
 
 void Game::draw() {
+	std::string str1 = std::to_string(this->score1);
+	std::string str2 = std::to_string(this->score2);
 	SpritePool::arena.draw(0, 0);
 	for (int i = 0; i < this->hand.size(); i++) {
 		this->hand[i].draw();
@@ -31,9 +33,9 @@ void Game::draw() {
 	for (int i = 0; i < this->enemyDeck.size(); i++) {
 		this->enemyDeck[i].draw();
 	}
-	if (this->draw_Text) {
-		Text::draw(this->x, 280, 800, 80, str, 20, 0.f, 0.7f, 1.f);
-	}
+	Text::draw(this->x, 320, 800, 80, this->str, 20, 0.f, 0.7f, 1.f);
+	Text::draw(720, 400, 800, 80, str1, 20, 0.f, 0.7f, 1.f);
+	Text::draw(720, 200, 800, 80, str2, 20, 0.f, 0.7f, 1.f);
 }
 
 Game::Game(ControlState* parent) : ControlState(parent), hand(10), enemyDeck(10) {}
@@ -87,6 +89,8 @@ void Game::update()
 			}
 	
 		} else if (cmd[c + 0] == "attack") {
+			this->x = 100;
+			this->str = "enemy move";
 			if (this->myCard != NULL) {
 				this->myCard->putOnTexture = false;
 				this->myCard = NULL;
@@ -95,7 +99,6 @@ void Game::update()
 				this->enemyCard->putOnTexture = false;
 				this->enemyCard = NULL;
 			}
-			this->draw_Text = false;
 			int index = std::stoi(cmd[c + 1]);
 			for (int i = 0; i < this->hand.size(); i++) {
 				if (this->hand[i].id == index) {
@@ -107,6 +110,7 @@ void Game::update()
 			}
 		}
 		else if (cmd[c + 0] == "movecard") {
+			this->x = 100;
 			if (this->enemyCard != NULL) {
 				if (this->myCard != NULL) {
 					this->myCard->putOnTexture = false;
@@ -117,7 +121,12 @@ void Game::update()
 					this->enemyCard = NULL;
 				}
 			}
-			this->draw_Text = false;
+			if (this->myCard == NULL) {
+				this->str = "your move";
+			}
+			else {
+				this->str = "enemy move";
+			}
 			int index = std::stoi(cmd[c + 1]);
 			int id = std::stoi(cmd[c + 2]);
 			this->enemyDeck[index].pushCoordsCard(400, 230);
@@ -125,7 +134,8 @@ void Game::update()
 			this->enemyCard = &this->enemyDeck[index];
 		}
 		else if (cmd[c + 0] == "defence") {
-			this->draw_Text = false;
+			this->x = 100;
+			this->str = "your move";
 			int index = std::stoi(cmd[c + 1]);
 			for (int i = 0; i < this->hand.size(); i++) {
 				if (this->hand[i].id == index) {
@@ -137,14 +147,39 @@ void Game::update()
 			}
 		} 
 		else if (cmd[c + 0] == "weakcard") {
+			this->x = 100;
 			this->str = "weak card";
-			this->x = 90;
-			this->draw_Text = true;
 		}
 		else if (cmd[c + 0] == "notcard") {
+			this->score2++;
 			this->str = "no cards to defence";
-			this->x = 150;
-			this->draw_Text = true;
+			this->x = 200;
+		}
+		else if (cmd[c + 0] == "score") {
+			this->score1++;
+			this->x = 100;
+			this->str = "enemy move";
+			this->enemyCard = this->myCard;
+		}
+		else if (cmd[c + 0] == "turn") {
+			this->x = 100;
+			this->str = "your move";
+		}
+		else if (cmd[c + 0] == "noturn") {
+			this->x = 100;
+			this->str = "enemy move";
+		}
+		else if (cmd[c + 0] == "win") {
+			this->x = 100;
+			this->str = "YOU WIN";
+		}
+		else if (cmd[c + 0] == "lose") {
+			this->x = 100;
+			this->str = "YOU LOSE";
+		}
+		else if (cmd[c + 0] == "draw") {
+			this->x = 100;
+			this->str = "DRAW";
 		}
 	}
 }

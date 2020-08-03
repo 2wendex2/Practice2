@@ -13,8 +13,10 @@ private:
 	std::vector<Card> enemyDeck;
 	Card* myCard = NULL;
 	Card* enemyCard = NULL;
+	int score1 = 0;
+	int score2 = 0;
 	std::string str;
-	int x = 90;
+	int x = 100;
 	bool draw_Text = false;
 
 
