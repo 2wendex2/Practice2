@@ -1,5 +1,2 @@
-﻿  pch.cpp
-  tcp_client.cpp
-  test.cpp
-  Создание кода...
+﻿  test.cpp
   Unit-Tests.vcxproj -> D:\lab\Practice2\vs2019\Debug\Unit-Tests.exe
