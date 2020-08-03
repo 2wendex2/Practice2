@@ -25,7 +25,7 @@ TEST(ServerInteractionsWithSingleClient, CreateLobby) {
   std::string str = "";
   client1->send_message("newgame mygame\n");
   str = get_msg(client1);
-  EXPECT_EQ(str, "list mygame\n");
+  EXPECT_EQ(str, "newgame mygame\n");
 }
 
 
@@ -76,7 +76,7 @@ TEST(ServerInteractionsWithMultipleClients, ConnectingToLobbyAndStartingGame) {
 	str1 = get_msg(client1);
 	str2 = get_msg(client2);
 	str3 = get_msg(client3);
-	EXPECT_EQ(str1, "list mygame\n");
+	EXPECT_EQ(str1, "newgame mygame\n");
 	EXPECT_EQ(str2, "list mygame\n");
 	EXPECT_EQ(str3, "list mygame\n");
 

@@ -38,7 +38,7 @@ void tcp_client::create(const char* adress, const char* port) {
 		ptr->ai_protocol);
 
 	if (ConnectSocket == INVALID_SOCKET) {
-		printf("Error at socket(): %ld\n", WSAGetLastError());
+		printf("Error at socket(): %d\n", WSAGetLastError());
 		freeaddrinfo(result);
 		WSACleanup();
 		return;
@@ -117,7 +117,7 @@ std::string tcp_client::recieve_message() {
 	else {
 		long last_err = WSAGetLastError();
 		if (last_err != 10035) {
-			printf("recv failed: %d\n", last_err);
+			printf("recv failed: %ld\n", last_err);
 		}
 		return "";
 	}
