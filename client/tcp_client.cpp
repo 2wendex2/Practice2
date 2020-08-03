@@ -24,7 +24,7 @@ void tcp_client::create(const char* adress, const char* port) {
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_protocol = IPPROTO_TCP;
 
-	iResult = getaddrinfo("127.0.0.1", "13", &hints, &result);
+	iResult = getaddrinfo(adress, port, &hints, &result);
 	if (iResult != 0) {
 		printf("getaddrinfo failed: %d\n", iResult);
 		WSACleanup();
