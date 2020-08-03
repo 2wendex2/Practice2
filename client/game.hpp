@@ -17,7 +17,8 @@ private:
 	int score2 = 0;
 	std::string str;
 	int x = 100;
-	bool draw_Text = false;
+	bool text_Draw = false;
+	std::string textHint = "press Esc to exit to the menu";
 
 
 private:
