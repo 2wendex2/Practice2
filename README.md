@@ -9,4 +9,4 @@ Game = glfw, soil
 # [Unit-Tests](./vs2019/Unit-Tests)
 Google Test  
 ![Tests](https://personalfebus.s-ul.eu/ZIxU8yrs)  
-# [Lint-analisys with cppcheck](./analisys/index.html)  
+# [Lint-analysis with cppcheck](./analysis/index.html)  
