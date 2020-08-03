@@ -1,15 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="tcp_client.cpp" />
-    <ClCompile Include="test.cpp" />
-    <ClCompile Include="pch.cpp" />
+    <Filter Include="Код">
+      <UniqueIdentifier>{35530d98-b9c3-445f-8c17-aa94ae317939}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="tcp_client.hpp" />
+    <ClCompile Include="pch.cpp">
+      <Filter>Код</Filter>
+    </ClCompile>
+    <ClCompile Include="tcp_client.cpp">
+      <Filter>Код</Filter>
+    </ClCompile>
+    <ClCompile Include="test.cpp">
+      <Filter>Код</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ClInclude Include="pch.h">
+      <Filter>Код</Filter>
+    </ClInclude>
+    <ClInclude Include="tcp_client.hpp">
+      <Filter>Код</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <Filter>Код</Filter>
+    </None>
   </ItemGroup>
 </Project>

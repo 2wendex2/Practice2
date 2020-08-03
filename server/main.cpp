@@ -19,6 +19,7 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
 #include <unordered_map>
 #include "lobby.hpp"
 #include "game.hpp"
@@ -83,8 +84,11 @@ int main(int argc, char** argv) {
 		return 1;
 	}
 
+	int port = PORT;
+	if (argc > 0)
+		port = std::stoi(argv[1]);
 	sin.sin_family = AF_INET;
-	sin.sin_port = htons(PORT);
+	sin.sin_port = htons(port);
 
 	listener = evconnlistener_new_bind(base, listener_cb, (void*)base,
 		LEV_OPT_REUSEABLE | LEV_OPT_CLOSE_ON_FREE, -1,

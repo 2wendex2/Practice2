@@ -6,7 +6,9 @@
 !/vs2019/Unit-Tests
 /vs2019/client/*
 /vs2019/server/*
-/vs2019/Unit-Tests/*
 !/vs2019/client/client.vcxproj
 !/vs2019/server/server.vcxproj
-!/vs2019/server/Unit-Tests.vcxproj
+!/vs2019/client32.bat
+!/vs2019/client64.bat
+!/vs2019/server32.bat
+!/vs2019/server64.bat
