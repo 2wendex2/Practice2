@@ -89,7 +89,6 @@ void Game::msgSwitch(int player1, int player2, std::string s)
 					std::string str2 = "score\n";
 					writeMesg(player1, str2);
 					this->playerOne.score++;
-					//std::cout << this->playerOne.score++ << " vlad lox1" << std::endl;
 				}
 				if (checkHand(this->playerOne) == 10) {
 					if (this->playerOne.score > this->playerTwo.score) {
@@ -173,9 +172,9 @@ void Game::msgSwitch(int player1, int player2, std::string s)
 						if (checkHand(this->playerOne) == 10) {
 							if (this->playerOne.score > this->playerTwo.score) {
 								std::string str3 = "win\n";
-								writeMesg(player1, str3);
+								writeMesg(player2, str3);
 								std::string str4 = "lose\n";
-								writeMesg(player2, str4);
+								writeMesg(player1, str4);
 								gameCompleted();
 							}
 							else if (this->playerOne.score == this->playerTwo.score) {
@@ -186,18 +185,18 @@ void Game::msgSwitch(int player1, int player2, std::string s)
 							}
 							else if (this->playerOne.score < this->playerTwo.score) {
 								std::string str3 = "lose\n";
-								writeMesg(player1, str3);
+								writeMesg(player2, str3);
 								std::string str4 = "win\n";
-								writeMesg(player2, str4);
+								writeMesg(player1, str4);
 								gameCompleted();
 							}
 						}
 						else if (checkHand(this->playerTwo) == 10) {
 							if (this->playerTwo.score > this->playerOne.score) {
 								std::string str3 = "win\n";
-								writeMesg(player2, str3);
+								writeMesg(player1, str3);
 								std::string str4 = "lose\n";
-								writeMesg(player1, str4);
+								writeMesg(player2, str4);
 								gameCompleted();
 							}
 							else if (this->playerTwo.score == this->playerOne.score) {
@@ -208,9 +207,9 @@ void Game::msgSwitch(int player1, int player2, std::string s)
 							}
 							else if (this->playerTwo.score < this->playerOne.score) {
 								std::string str3 = "lose\n";
-								writeMesg(player2, str3);
+								writeMesg(player1, str3);
 								std::string str4 = "win\n";
-								writeMesg(player1, str4);
+								writeMesg(player2, str4);
 								gameCompleted();
 							}
 						}
@@ -247,7 +246,6 @@ void Game::msgSwitch(int player1, int player2, std::string s)
 					std::string str2 = "score\n";
 					writeMesg(player1, str2);
 					this->playerTwo.score++;
-					//std::cout << this->playerTwo.score++ << " vlad lox2" << std::endl;
 				}
 				if (checkHand(this->playerTwo) == 10) {
 					if (this->playerTwo.score > this->playerOne.score) {
@@ -331,9 +329,9 @@ void Game::msgSwitch(int player1, int player2, std::string s)
 						if (checkHand(this->playerTwo) == 10) {
 							if (this->playerTwo.score > this->playerOne.score) {
 								std::string str3 = "win\n";
-								writeMesg(player1, str3);
+								writeMesg(player2, str3);
 								std::string str4 = "lose\n";
-								writeMesg(player2, str4);
+								writeMesg(player1, str4);
 								gameCompleted();
 							}
 							else if (this->playerTwo.score == this->playerOne.score) {
@@ -344,18 +342,18 @@ void Game::msgSwitch(int player1, int player2, std::string s)
 							}
 							else if (this->playerTwo.score < this->playerOne.score) {
 								std::string str3 = "lose\n";
-								writeMesg(player1, str3);
+								writeMesg(player2, str3);
 								std::string str4 = "win\n";
-								writeMesg(player2, str4);
+								writeMesg(player1, str4);
 								gameCompleted();
 							}
 						}
 						else if (checkHand(this->playerOne) == 10) {
 							if (this->playerOne.score > this->playerTwo.score) {
 								std::string str3 = "win\n";
-								writeMesg(player2, str3);
+								writeMesg(player1, str3);
 								std::string str4 = "lose\n";
-								writeMesg(player1, str4);
+								writeMesg(player2, str4);
 								gameCompleted();
 							}
 							else if (this->playerOne.score == this->playerTwo.score) {
@@ -366,9 +364,9 @@ void Game::msgSwitch(int player1, int player2, std::string s)
 							}
 							else if (this->playerOne.score < this->playerTwo.score) {
 								std::string str3 = "lose\n";
-								writeMesg(player2, str3);
+								writeMesg(player1, str3);
 								std::string str4 = "win\n";
-								writeMesg(player1, str4);
+								writeMesg(player2, str4);
 								gameCompleted();
 							}
 						}
