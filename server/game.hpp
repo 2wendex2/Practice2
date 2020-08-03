@@ -16,7 +16,7 @@ class Game {
 	std::vector<int> index;
 
 	bool beatOffTheCard(int id, Player& playerOne, Player& playerTwo);
-	void gameCompeted() {};
+	void gameCompleted();
 	int checkHand(Player& player);
 
 	void msgSwitch(int player1, int player2, std::string s);

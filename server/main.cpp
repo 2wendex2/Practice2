@@ -40,11 +40,17 @@ void writeMesg(int fd, const std::string &msg)
 	bufferevent_write(socket_to_buffer[(int)fd], msg.c_str(), msg.length());
 }
 
-void gameEnd(int fd)
+void gameEnd(int fd1, int fd2)
 {
-	socket_to_state[fd] = "LIST";
-	delete socket_to_game[fd];
-	socket_to_game.erase(fd);
+	delete socket_to_game[fd1];
+	socket_to_state[fd1] = "LIST";
+	socket_to_game.erase(fd1);
+	list_sockets[list_sock_num] = fd1;
+	list_sock_num++;
+	socket_to_state[fd2] = "LIST";
+	socket_to_game.erase(fd2);
+	list_sockets[list_sock_num] = fd2;
+	list_sock_num++;
 }
 
 static void listener_cb(struct evconnlistener*, evutil_socket_t, struct sockaddr*, int socklen, void*);
@@ -225,6 +231,8 @@ static void conn_readcb(struct bufferevent* bev, void* user_data) {
 		case 'n':
 			sp = current_command.find(' ');
 			name = current_command.substr(sp + 1);
+			if (name == "")
+				break;
 
 			if (state->second != "LIST") break;
 			//проверить соответствие state->second
@@ -253,6 +261,8 @@ static void conn_readcb(struct bufferevent* bev, void* user_data) {
 			msg += '\n';
 
 			for (int i = 0; i < list_sock_num; i++) {
+				if (list_sockets[i] == (int)fd)
+					continue;
 				auto mp = socket_to_buffer.find(list_sockets[i]);
 				std::cout << msg << " ++ to socket = " << list_sockets[i] << "; buffer = " << mp->second << ";\n";
 				bufferevent_write(mp->second, msg.data(), strlen(msg.data()));

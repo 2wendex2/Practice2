@@ -18,7 +18,8 @@ void GameWaiting::keyGet(int key)
 {
 	if (key == GLFW_KEY_ESCAPE)
 	{
-		settings.client.send_message("exit\n");
+		std::string cmd = "delete " + s + "\n";
+		settings.client.send_message(cmd.c_str());
 		Control::changeState(parent);
 	}
 }
@@ -40,4 +41,4 @@ void GameWaiting::update()
 	}
 }
 
-GameWaiting::GameWaiting(ControlState* parent) : ControlState(parent) {}
+GameWaiting::GameWaiting(ControlState* parent, const std::string& s) : ControlState(parent), s(s) {}

@@ -4,7 +4,7 @@
 
 
 extern void writeMesg(int fd, const std::string& msg);
-extern void gameEnd(int fd);
+extern void gameEnd(int fd1, int fd2);
 
 void Game::dispatchMsg(int player, std::string s)
 {
@@ -16,14 +16,18 @@ void Game::dispatchMsg(int player, std::string s)
 	msgSwitch(player, pl2, s);
 }
 
+void Game::gameCompleted()
+{
+	gameEnd(player1, player2);
+}
+
 void Game::msgSwitch(int player1, int player2, std::string s)
 {
 	std::cout << this->turn << std::endl;
 	Servercmd cmd(s);
 	if (cmd[0] == "end")
 	{
-		gameEnd(player1);
-		gameEnd(player2);
+		gameEnd(player1, player2);
 		writeMesg(player2, "end\n");
 	}
 	else if (cmd[0] == "create") {
@@ -82,7 +86,7 @@ void Game::msgSwitch(int player1, int player2, std::string s)
 					this->turn = 1;
 					std::string str1 = "notcard\n";
 					writeMesg(player2, str1);
-					std::string str2 = "score";
+					std::string str2 = "score\n";
 					writeMesg(player1, str2);
 					this->playerOne.score++;
 					//std::cout << this->playerOne.score++ << " vlad lox1" << std::endl;
@@ -93,20 +97,20 @@ void Game::msgSwitch(int player1, int player2, std::string s)
 						writeMesg(player1, str3);
 						std::string str4 = "lose\n";
 						writeMesg(player2, str4);
-						gameCompeted();
+						gameCompleted();
 					}
 					else if (this->playerOne.score == this->playerTwo.score) {
 						std::string str3 = "draw\n";
 						writeMesg(player1, str3);
 						writeMesg(player2, str3);
-						gameCompeted();
+						gameCompleted();
 					}
 					else if (this->playerOne.score < this->playerTwo.score) {
 						std::string str3 = "lose\n";
 						writeMesg(player1, str3);
 						std::string str4 = "win\n";
 						writeMesg(player2, str4);
-						gameCompeted();
+						gameCompleted();
 					}
 				}
 				else if (checkHand(this->playerTwo) == 10) {
@@ -115,20 +119,20 @@ void Game::msgSwitch(int player1, int player2, std::string s)
 						writeMesg(player2, str3);
 						std::string str4 = "lose\n";
 						writeMesg(player1, str4);
-						gameCompeted();
+						gameCompleted();
 					}
 					else if (this->playerTwo.score == this->playerOne.score) {
 						std::string str3 = "draw\n";
 						writeMesg(player2, str3);
 						writeMesg(player1, str3);
-						gameCompeted();
+						gameCompleted();
 					}
 					else if (this->playerTwo.score < this->playerOne.score) {
 						std::string str3 = "lose\n";
 						writeMesg(player2, str3);
 						std::string str4 = "win\n";
 						writeMesg(player1, str4);
-						gameCompeted();
+						gameCompleted();
 					}
 				}
 			}
@@ -172,20 +176,20 @@ void Game::msgSwitch(int player1, int player2, std::string s)
 								writeMesg(player1, str3);
 								std::string str4 = "lose\n";
 								writeMesg(player2, str4);
-								gameCompeted();
+								gameCompleted();
 							}
 							else if (this->playerOne.score == this->playerTwo.score) {
 								std::string str3 = "draw\n";
 								writeMesg(player1, str3);
 								writeMesg(player2, str3);
-								gameCompeted();
+								gameCompleted();
 							}
 							else if (this->playerOne.score < this->playerTwo.score) {
 								std::string str3 = "lose\n";
 								writeMesg(player1, str3);
 								std::string str4 = "win\n";
 								writeMesg(player2, str4);
-								gameCompeted();
+								gameCompleted();
 							}
 						}
 						else if (checkHand(this->playerTwo) == 10) {
@@ -194,20 +198,20 @@ void Game::msgSwitch(int player1, int player2, std::string s)
 								writeMesg(player2, str3);
 								std::string str4 = "lose\n";
 								writeMesg(player1, str4);
-								gameCompeted();
+								gameCompleted();
 							}
 							else if (this->playerTwo.score == this->playerOne.score) {
 								std::string str3 = "draw\n";
 								writeMesg(player2, str3);
 								writeMesg(player1, str3);
-								gameCompeted();
+								gameCompleted();
 							}
 							else if (this->playerTwo.score < this->playerOne.score) {
 								std::string str3 = "lose\n";
 								writeMesg(player2, str3);
 								std::string str4 = "win\n";
 								writeMesg(player1, str4);
-								gameCompeted();
+								gameCompleted();
 							}
 						}
 						this->step = 0;
@@ -240,7 +244,7 @@ void Game::msgSwitch(int player1, int player2, std::string s)
 					this->turn = 0;
 					std::string str1 = "notcard\n";
 					writeMesg(player2, str1);
-					std::string str2 = "score";
+					std::string str2 = "score\n";
 					writeMesg(player1, str2);
 					this->playerTwo.score++;
 					//std::cout << this->playerTwo.score++ << " vlad lox2" << std::endl;
@@ -251,20 +255,20 @@ void Game::msgSwitch(int player1, int player2, std::string s)
 						writeMesg(player1, str3);
 						std::string str4 = "lose\n";
 						writeMesg(player2, str4);
-						gameCompeted();
+						gameCompleted();
 					}
 					else if (this->playerTwo.score == this->playerOne.score) {
 						std::string str3 = "draw\n";
 						writeMesg(player1, str3);
 						writeMesg(player2, str3);
-						gameCompeted();
+						gameCompleted();
 					}
 					else if (this->playerTwo.score < this->playerOne.score) {
 						std::string str3 = "lose\n";
 						writeMesg(player1, str3);
 						std::string str4 = "win\n";
 						writeMesg(player2, str4);
-						gameCompeted();
+						gameCompleted();
 					}
 				}
 				else if (checkHand(this->playerOne) == 10) {
@@ -273,20 +277,20 @@ void Game::msgSwitch(int player1, int player2, std::string s)
 						writeMesg(player2, str3);
 						std::string str4 = "lose\n";
 						writeMesg(player1, str4);
-						gameCompeted();
+						gameCompleted();
 					}
 					else if (this->playerOne.score == this->playerTwo.score) {
 						std::string str3 = "draw\n";
 						writeMesg(player2, str3);
 						writeMesg(player1, str3);
-						gameCompeted();
+						gameCompleted();
 					}
 					else if (this->playerOne.score < this->playerTwo.score) {
 						std::string str3 = "lose\n";
 						writeMesg(player2, str3);
 						std::string str4 = "win\n";
 						writeMesg(player1, str4);
-						gameCompeted();
+						gameCompleted();
 					}
 				}
 			}
@@ -330,20 +334,20 @@ void Game::msgSwitch(int player1, int player2, std::string s)
 								writeMesg(player1, str3);
 								std::string str4 = "lose\n";
 								writeMesg(player2, str4);
-								gameCompeted();
+								gameCompleted();
 							}
 							else if (this->playerTwo.score == this->playerOne.score) {
 								std::string str3 = "draw\n";
 								writeMesg(player1, str3);
 								writeMesg(player2, str3);
-								gameCompeted();
+								gameCompleted();
 							}
 							else if (this->playerTwo.score < this->playerOne.score) {
 								std::string str3 = "lose\n";
 								writeMesg(player1, str3);
 								std::string str4 = "win\n";
 								writeMesg(player2, str4);
-								gameCompeted();
+								gameCompleted();
 							}
 						}
 						else if (checkHand(this->playerOne) == 10) {
@@ -352,20 +356,20 @@ void Game::msgSwitch(int player1, int player2, std::string s)
 								writeMesg(player2, str3);
 								std::string str4 = "lose\n";
 								writeMesg(player1, str4);
-								gameCompeted();
+								gameCompleted();
 							}
 							else if (this->playerOne.score == this->playerTwo.score) {
 								std::string str3 = "draw\n";
 								writeMesg(player2, str3);
 								writeMesg(player1, str3);
-								gameCompeted();
+								gameCompleted();
 							}
 							else if (this->playerOne.score < this->playerTwo.score) {
 								std::string str3 = "lose\n";
 								writeMesg(player2, str3);
 								std::string str4 = "win\n";
 								writeMesg(player1, str4);
-								gameCompeted();
+								gameCompleted();
 							}
 						}
 						this->turn = 0;

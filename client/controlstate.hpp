@@ -5,9 +5,10 @@ class ControlState
 {
 protected:
 	ControlState* parent;
-	ControlState(ControlState *parent) : parent(parent) {}
+	
 
 public:
+	ControlState(ControlState* parent) : parent(parent) {}
 	virtual void draw() {};
 	virtual void update() {};
 	virtual void mousePress(int x, int y) {};
@@ -16,6 +17,7 @@ public:
 	virtual void charGet(unsigned int c) {};
 	virtual void keyGet(int key) {};
 	virtual void start() {};
+	virtual ~ControlState() {};
 	void quit();
 };
 

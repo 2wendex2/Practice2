@@ -25,6 +25,8 @@ void TextArea::draw()
 
 void TextArea::charGet(unsigned int c)
 {
+	if (isspace((char)c))
+		return;
 	if (c < 128 && enteredString.length() < maxSymbols)
 		enteredString += (char)c;
 }
