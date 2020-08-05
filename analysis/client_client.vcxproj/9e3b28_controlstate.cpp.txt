@@ -1,7 +1,0 @@
-Checking C:\Users\gleb8\git\Practice2\client\controlstate.cpp ...
-Defines:
-Undefines:
-Includes:
-Platform:win64
-C:\Users\gleb8\git\Practice2\client\controlstate.hpp(11): style,noExplicitConstructor,Class 'ControlState' has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided.
-C:\Users\gleb8\git\Practice2\client\controlstate.cpp(4): style,unusedFunction,The function 'quit' is never used.
