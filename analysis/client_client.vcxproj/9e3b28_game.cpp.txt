@@ -1,6 +1,0 @@
-Checking C:\Users\gleb8\git\Practice2\client\game.cpp ...
-Defines:
-Undefines:
-Includes:
-Platform:win64
-C:\Users\gleb8\git\Practice2\client\game.cpp(56): error,syntaxError,The code contains unhandled character(s) (character code=208). Neither unicode nor extended ascii is supported.

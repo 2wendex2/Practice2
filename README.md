@@ -16,4 +16,4 @@ Client
 # [Unit-Tests](https://github.com/2wendex2/Practice2/tree/server_dev/vs2019/Unit-Tests)
 Google Test  
 ![Tests](https://personalfebus.s-ul.eu/ZIxU8yrs)  
-# [Lint-analysis with cppcheck](./analysis/index.html)  
+# [Lint-analysis with cppcheck](https://personalfebus.s-ul.eu/DTEXI8NU)  
